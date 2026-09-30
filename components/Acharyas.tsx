@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { acharyas, mahacharya } from "@/content/site";
 import { Icon } from "./Icon";
+import { Reveal, Stagger, StaggerItem } from "./Motion";
 
 type Msg = { from: "a" | "u"; text: string; typing?: boolean };
 
@@ -44,7 +45,7 @@ function MahAcharyaChat() {
   }
 
   return (
-    <div className="od-maha" data-reveal>
+    <div className="od-maha">
       <div className="od-maha__head">
         <span className="od-maha__av">
           M<span className="od-live" />
@@ -113,19 +114,21 @@ export function AcharyasSection() {
             A mentor for <em style={{ color: "var(--terracotta)" }}>every</em> worker
           </h2>
           <p className="od-lead">Nine AI Acharyas who score the work, teach in the worker’s language, and never lose patience.</p>
-          <div className="od-roster" data-reveal-stagger>
+          <Stagger className="od-roster">
             {acharyas.map((a) => (
-              <div className="od-roster__p" key={a.name}>
+              <StaggerItem className="od-roster__p" key={a.name}>
                 <span className="od-roster__av" style={{ background: a.color }}>
                   {a.initials}
                 </span>
                 <span className="od-roster__n">{a.name}</span>
                 <span className="od-roster__k">{a.field}</span>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
-        <MahAcharyaChat />
+        <Reveal delay={0.1} distance={40}>
+          <MahAcharyaChat />
+        </Reveal>
       </div>
     </section>
   );

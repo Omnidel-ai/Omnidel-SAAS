@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { showcase } from "@/content/site";
 import { Rich } from "./Icon";
+import { ScrollZoom } from "./Motion";
 
 /** Real OmniDEL app screens, one per tab, in a browser frame with a couple of callouts. */
 export function AppShowcase() {
@@ -20,7 +21,7 @@ export function AppShowcase() {
       <p className="od-show__caption">
         <b>{panel.caption[0]}</b> {panel.caption[1]}
       </p>
-      <div className="od-show__stage" data-reveal>
+      <ScrollZoom className="od-show__stage">
         <div className="od-show__panel" role="tabpanel" key={panel.key}>
           {"phones" in panel ? (
             <div className="od-phones">
@@ -55,7 +56,7 @@ export function AppShowcase() {
             </span>
           ))}
         </div>
-      </div>
+      </ScrollZoom>
       <span className="od-shotnote">Real OmniDEL app screens · demo data</span>
     </div>
   );

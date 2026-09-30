@@ -159,7 +159,7 @@ img { max-width: 100%; }
 /* ── Trust strip ──────────────────────────────────────── */
 .od-trust { padding: 36px 0 8px; text-align: center; display: grid; gap: 22px; }
 .od-trust__row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px 40px; font-family: var(--font-serif); font-size: 17px; color: var(--ink-soft); }
-.od-trust__row span small { display: block; font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); opacity: .8; }
+.od-trust__row > * small { display: block; font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); opacity: .8; }
 
 /* ── Product cards ────────────────────────────────────── */
 .od-products { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -251,7 +251,7 @@ img { max-width: 100%; }
 
 /* Add-ons */
 .od-addons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.od-addon { border-radius: var(--r-xl); padding: 26px; background: var(--paper); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms var(--ease-out); }
+.od-addon { border-radius: var(--r-xl); padding: 26px; background: var(--paper); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; transition: border-color 200ms ease, box-shadow 200ms ease, translate 200ms var(--ease-out); }
 .od-addon:hover { box-shadow: var(--shadow-md); }
 .od-addon[aria-checked="true"] { border-color: var(--green-deep); box-shadow: 0 0 0 1px var(--green-deep); }
 .od-addon__top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -619,9 +619,10 @@ img { max-width: 100%; }
 .od-addon__btn, .od-show__tabs button, .od-chips button, .od-maha__send, .od-play__btn { transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease, border-color 200ms ease; }
 
 /* Hover lift on cards — pointer devices only */
-.od-plan2, .od-addon, .od-ba__card { transition: transform 200ms var(--ease-out), box-shadow 200ms ease, border-color 200ms ease; }
+/* Cards are entered by Motion (inline transform), so hover uses the separate `translate` property. */
+.od-plan2, .od-addon, .od-ba__card { transition: translate 200ms var(--ease-out), box-shadow 200ms ease, border-color 200ms ease; }
 @media (hover: hover) and (pointer: fine) {
-  .od-plan2:hover, .od-addon:hover { transform: translateY(-3px); }
+  .od-plan2:hover, .od-addon:hover { translate: 0 -3px; }
   .od-btn--primary:hover, .od-btn--ink:hover { transform: translateY(-1px); }
   .od-btn--primary:active, .od-btn--ink:active { transform: scale(0.97); }
 }
@@ -629,25 +630,16 @@ img { max-width: 100%; }
 /* Price changes when billing flips or add-ons change */
 .od-num { display: inline-block; animation: od-num 220ms var(--ease-out) both; }
 
-/* Scroll reveal: marketing sections, fire once. Hidden only when JS is on,
-   so the page is never blank without it. Once visible, no transform is set,
-   so hover lifts on the cards keep working. */
-.od-js [data-reveal]:not([data-visible]) { opacity: 0; transform: translateY(16px); }
-.od-js [data-reveal]:not([data-settled]) { transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
-.od-js [data-reveal-stagger]:not([data-visible]) > * { opacity: 0; transform: translateY(12px); }
-.od-js [data-reveal-stagger]:not([data-settled]) > * { transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
-.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(2) { transition-delay: 60ms; }
-.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(3) { transition-delay: 120ms; }
-.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(4) { transition-delay: 180ms; }
-.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(5) { transition-delay: 240ms; }
-.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(n+6) { transition-delay: 280ms; }
-
 /* Reduced motion: keep fades, drop movement */
 @media (prefers-reduced-motion: reduce) {
-  .od-js [data-reveal]:not([data-visible]), .od-js [data-reveal-stagger]:not([data-visible]) > * { transform: none !important; }
-  .od-js [data-reveal]:not([data-settled]), .od-js [data-reveal-stagger]:not([data-settled]) > * { transition: opacity 200ms ease !important; transition-delay: 0ms !important; }
-  .od-plan2:hover, .od-addon:hover, .od-btn:hover, .od-btn:active, .od-addon__btn:active, .od-show__tabs button:active, .od-chips button:active { transform: none !important; }
+  .od-plan2:hover, .od-addon:hover { translate: none !important; }
+  .od-btn:hover, .od-btn:active, .od-addon__btn:active, .od-show__tabs button:active, .od-chips button:active { transform: none !important; }
   .od-show__panel, .od-msg, .od-num, .od-steps5 li { animation: od-fade 200ms ease both !important; }
   .od-switch__track::after { transition: transform 1ms, background-color 200ms ease; }
 }
 @keyframes od-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Scroll progress bar (spring-smoothed, see components/Motion.tsx) */
+.od-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green-deep), var(--terracotta)); transform-origin: 0 50%; z-index: 60; pointer-events: none; }
+.od-hero3__text { will-change: transform, opacity; }
+.od-show__stage { will-change: transform; }
