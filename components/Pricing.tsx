@@ -131,6 +131,11 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
                       {a.line}
                     </p>
                   </div>
+                  <ul className="od-mini">
+                    {a.features.map((f) => (
+                      <li key={f}>{f}</li>
+                    ))}
+                  </ul>
                   <button className="od-addon__btn" type="button" onClick={() => toggle(a.id)}>
                     {on ? "✓ Added" : "+ Add to plan"}
                   </button>

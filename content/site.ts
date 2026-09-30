@@ -214,10 +214,14 @@ export const plans: {
   },
 ];
 
-export const addOns: { id: AddOnId; name: string; line: string; price: number; icon: "mart" | "studio" | "ads"; tint: string; ink: string }[] = [
-  { id: "mart", name: "OmniMart", line: "Sales and delivery, from first lead to store.", price: 299, icon: "mart", tint: "var(--green-wash)", ink: "var(--green-deep)" },
-  { id: "studio", name: "OmniStudio", line: "Turn proof-of-work into content you can use.", price: 199, icon: "studio", tint: "var(--ochre-wash)", ink: "#5e3f0c" },
-  { id: "ads", name: "OmniAds", line: "Promote your best work where customers look.", price: 249, icon: "ads", tint: "var(--terra-wash)", ink: "#7a3b22" },
+/**
+ * OmniMart's features are the modules of the OmniMart app (Omnidel_Frontend).
+ * OmniStudio and OmniAds have no product source yet: their lines are DRAFTS to confirm.
+ */
+export const addOns: { id: AddOnId; name: string; line: string; price: number; icon: "mart" | "studio" | "ads"; tint: string; ink: string; features: string[] }[] = [
+  { id: "mart", name: "OmniMart", line: "Sales and delivery, from first lead to store.", price: 299, icon: "mart", tint: "var(--green-wash)", ink: "var(--green-deep)", features: ["Lead pipeline, from new lead to final approval", "Missions with a pace to hit", "Schedule and site visits", "Store dashboard with sales numbers"] },
+  { id: "studio", name: "OmniStudio", line: "Turn proof-of-work into content you can use.", price: 199, icon: "studio", tint: "var(--ochre-wash)", ink: "#5e3f0c", features: ["Photo and video library from every job", "Before / after sets for customers", "Share to WhatsApp in one tap"] },
+  { id: "ads", name: "OmniAds", line: "Promote your best work where customers look.", price: 249, icon: "ads", tint: "var(--terra-wash)", ink: "#7a3b22", features: ["Ads made from your top-scored jobs", "Reach customers in your area", "New leads go straight into OmniMart"] },
 ];
 
 export const pricingCopy = {
