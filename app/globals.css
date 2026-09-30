@@ -589,3 +589,16 @@ img { max-width: 100%; }
 .od-mini { list-style: none; margin: 2px 0 4px; padding: 0; display: grid; gap: 8px; flex: 1; align-content: start; }
 .od-mini li { display: grid; grid-template-columns: 16px 1fr; gap: 8px; font-size: 14px; line-height: 20px; color: var(--ink-soft); }
 .od-mini li::before { content: "✓"; font: 700 12px/20px var(--font-sans); color: var(--green); }
+
+/* Acharya app: phone frames */
+.od-phones { display: grid; grid-template-columns: repeat(3, minmax(0, 260px)); justify-content: center; gap: 36px; padding: 8px 0 12px; }
+.od-phone { margin: 0; display: grid; gap: 14px; justify-items: center; }
+.od-phone:nth-child(2) { transform: translateY(-18px); }
+.od-phone__body { width: 100%; border-radius: 36px; padding: 10px; background: var(--ink); box-shadow: 0 40px 70px -40px rgba(35, 29, 20, .55), 0 0 0 1px rgba(35, 29, 20, .2); }
+.od-phone__body img { display: block; width: 100%; height: auto; border-radius: 27px; background: var(--page); }
+.od-phone figcaption { font-size: 14px; color: var(--ink-soft); text-align: center; }
+@media (max-width: 860px) {
+  .od-phones { grid-template-columns: repeat(3, 72%); overflow-x: auto; justify-content: start; scroll-snap-type: x mandatory; padding: 8px 16px 16px; margin: 0 -16px; }
+  .od-phone { scroll-snap-align: center; }
+  .od-phone:nth-child(2) { transform: none; }
+}

@@ -15,7 +15,7 @@ export default function Home() {
         <Trust />
         <section className="od-section" id="product">
           <div className="od-wrap">
-            <SectionHead eyebrow="The product" title="See it in the app" lead="Real screens from OmniPulse and OmniVarsity." />
+            <SectionHead eyebrow="The product" title="See it in the app" lead="Real screens from OmniPulse and the Acharya app." />
             <AppShowcase />
           </div>
         </section>

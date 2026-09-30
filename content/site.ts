@@ -115,10 +115,16 @@ export const showcase = [
   {
     key: "acharyas",
     tab: "Acharyas",
-    url: "app.omnidel.ai/omnivarsity/acharyas",
-    image: "/screens/acharyas.webp",
-    caption: ["Mentors for every trade.", "Finance, farming, sales, craft and more."],
-    callouts: [{ kind: "num", value: "9", text: "AI Acharyas, each with a speciality", style: { top: "40%", right: "-4%" } }],
+    url: "macharya.ai · Acharya app",
+    image: "/screens/acharya-list.webp",
+    caption: ["An Acharya in every pocket.", "Workers pick their mentor, chat by voice, and follow their tasks."],
+    /** Phone screens from the Acharya app (dev.macharya.ai). */
+    phones: [
+      { image: "/screens/acharya-list.webp", label: "Your Acharyas" },
+      { image: "/screens/acharya-chat.webp", label: "Talk to MahAcharya’ji" },
+      { image: "/screens/acharya-tasks.webp", label: "Tasks with Neeranjan Acharya" },
+    ],
+    callouts: [{ kind: "live", text: "**Voice first** · hold the mic to talk", style: { bottom: "18%", right: "4%" } }],
   },
 ] as const;
 
