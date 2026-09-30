@@ -10,6 +10,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import "@fontsource/hind/400.css";
 import "@fontsource/hind/500.css";
 import "./globals.css";
+import { RevealObserver } from "@/components/RevealObserver";
 
 export const metadata: Metadata = {
   title: { default: "OmniDEL.ai — Your crew does the work. The agent does the rest.", template: "%s · OmniDEL.ai" },
@@ -23,12 +24,17 @@ export const viewport: Viewport = { themeColor: "#faf7f0", width: "device-width"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Lets the scroll reveal hide sections before first paint; without JS nothing is hidden. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('od-js')" }} />
+      </head>
       <body>
         <a className="od-skip" href="#main">
           Skip to content
         </a>
         <div className="od">{children}</div>
+        <RevealObserver />
       </body>
     </html>
   );

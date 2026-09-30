@@ -17,7 +17,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
 
   return (
     <>
-      <div className="od-price-head">
+      <div className="od-price-head" data-reveal>
         <span className="od-eyebrow">{pricingCopy.eyebrow}</span>
         <h2 className="od-display">
           {pricingCopy.title[0]}
@@ -46,7 +46,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
         </div>
       </div>
 
-      <div className="od-plans2">
+      <div className="od-plans2" data-reveal-stagger>
         {plans.map((p) => (
           <article
             key={p.id}
@@ -68,7 +68,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
               </div>
               <div className="od-plan2__price">
                 <sup>₹</sup>
-                <span>{p.price[billing].toLocaleString("en-IN")}</span>
+                <span className="od-num" data-price key={billing}>{p.price[billing].toLocaleString("en-IN")}</span>
                 <small>/ worker / month</small>
               </div>
               <p className="od-plan2__note">{billing === "yearly" ? "Billed yearly" : "Billed monthly"} · GST extra</p>
@@ -104,14 +104,14 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
 
       {showAddOns ? (
         <>
-          <div className="od-head" style={{ marginTop: 96 }}>
+          <div className="od-head" style={{ marginTop: 96 }} data-reveal>
             <span className="od-eyebrow">Add-ons</span>
             <h2 className="od-display" style={{ fontSize: 40 }}>
               {pricingCopy.addOnsTitle}
             </h2>
             <p className="od-lead">{pricingCopy.addOnsLead}</p>
           </div>
-          <div className="od-addons">
+          <div className="od-addons" data-reveal-stagger>
             {addOns.map((a) => {
               const on = chosen.includes(a.id);
               return (
@@ -150,7 +150,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
                 {chosen.map((id) => ` · ${addOns.find((a) => a.id === id)?.name}`)}
               </div>
               <div className="od-summary__total">
-                {inr(orderTotal(order))} <small>per worker / month</small>
+                <span className="od-num" key={orderTotal(order)}>{inr(orderTotal(order))}</span> <small>per worker / month</small>
               </div>
             </div>
             <Link className="od-btn od-btn--on-dark" href={checkout(plan)}>

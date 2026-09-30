@@ -74,7 +74,7 @@ export function Footer() {
 
 export function SectionHead({ eyebrow, title, lead }: { eyebrow: string; title: React.ReactNode; lead?: string }) {
   return (
-    <div className="od-head">
+    <div className="od-head" data-reveal>
       <span className="od-eyebrow">{eyebrow}</span>
       <h2 className="od-display">{title}</h2>
       {lead ? <p className="od-lead">{lead}</p> : null}

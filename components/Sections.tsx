@@ -54,7 +54,7 @@ export function Trust() {
   return (
     <div className="od-wrap od-trust">
       <span className="od-eyebrow">{trust.title}</span>
-      <div className="od-trust__row">
+      <div className="od-trust__row" data-reveal-stagger>
         {trust.items.map((t) => (
           <span key={t.name}>
             {t.name}
@@ -69,7 +69,7 @@ export function Trust() {
 export function BeforeAfter() {
   const b = beforeAfter;
   return (
-    <div className="od-ba">
+    <div className="od-ba" data-reveal-stagger>
       <div className="od-ba__card od-ba__card--before">
         <div>
           <span className="od-ba__tag">{b.before.tag}</span>
@@ -107,7 +107,7 @@ export function BeforeAfter() {
 
 export function Faq() {
   return (
-    <div className="od-faq">
+    <div className="od-faq" data-reveal>
       {faq.map((f, i) => (
         <details key={f.q} open={i === 0}>
           <summary>{f.q}</summary>
@@ -126,7 +126,7 @@ export function Closing() {
         <img className="od-scene" src="/scenes/closing.svg" alt="" style={{ objectPosition: "left bottom" }} />
       </div>
       <div className="od-wrap">
-        <div className="od-closing__text">
+        <div className="od-closing__text" data-reveal>
           <span className="od-indic" lang="hi">
             {brand.motto.hi}
           </span>

@@ -58,6 +58,10 @@
   --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px rgba(26, 31, 23, 0.04);
   --shadow-md: 0 1px 2px rgba(26, 31, 23, 0.04), 0 8px 24px -10px rgba(26, 31, 23, 0.12);
   --shadow-lg: 0 2px 4px rgba(26, 31, 23, 0.04), 0 24px 48px -20px rgba(37, 74, 51, 0.28);
+  /* motion (Emil Kowalski's curves) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   /* type */
   --font-serif: "Fraunces Variable", "Fraunces", "PT Serif", Georgia, serif;
   --font-sans: "Inter Tight", "Inter", system-ui, -apple-system, sans-serif;
@@ -106,7 +110,7 @@ img { max-width: 100%; }
 .od-brand__name { font-family: var(--font-serif); font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
 
 /* ── Buttons ──────────────────────────────────────────── */
-.od-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 26px; border-radius: var(--r-pill); font: 500 15px/20px var(--font-sans); border: 1px solid transparent; cursor: pointer; transition: background .15s, border-color .15s, transform .15s; white-space: nowrap; }
+.od-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 26px; border-radius: var(--r-pill); font: 500 15px/20px var(--font-sans); border: 1px solid transparent; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 160ms var(--ease-out); white-space: nowrap; }
 .od-btn:focus-visible { outline: 2px solid var(--green-deep); outline-offset: 3px; }
 .od-btn--primary { background: var(--green-deep); color: var(--surface); }
 .od-btn--primary:hover { background: var(--green); }
@@ -247,7 +251,7 @@ img { max-width: 100%; }
 
 /* Add-ons */
 .od-addons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.od-addon { border-radius: var(--r-xl); padding: 26px; background: var(--paper); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; transition: border-color .15s, box-shadow .15s; }
+.od-addon { border-radius: var(--r-xl); padding: 26px; background: var(--paper); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms var(--ease-out); }
 .od-addon:hover { box-shadow: var(--shadow-md); }
 .od-addon[aria-checked="true"] { border-color: var(--green-deep); box-shadow: 0 0 0 1px var(--green-deep); }
 .od-addon__top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -314,7 +318,7 @@ img { max-width: 100%; }
   .od-summary { border-radius: var(--r-xl); flex-direction: column; align-items: stretch; }
   .od-enterprise { flex-direction: column; align-items: flex-start; }
 }
-@media (prefers-reduced-motion: reduce) { .od * { transition: none !important; } }
+
 
 /* ═══════════ Calm agentic layer (v3) ═════════════════════
    A painted, misty landscape behind the hero and the closing CTA;
@@ -326,7 +330,7 @@ img { max-width: 100%; }
 @keyframes od-sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(.8deg); } }
 @keyframes od-bird { 0% { transform: translate(0,0); } 100% { transform: translate(-160px,-24px); } }
 @keyframes od-spin { to { transform: rotate(1turn); } }
-@keyframes od-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes od-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .od-scene-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .od-scene { width: 100%; height: 100%; display: block; object-fit: cover; }
@@ -383,7 +387,7 @@ img { max-width: 100%; }
 .od-steps5 li.is-run .od-steps5__disc { background: var(--paper); box-shadow: 0 0 0 6px color-mix(in srgb, var(--paper) 80%, transparent), 0 0 0 7px var(--terra-soft); }
 .od-steps5 li.is-run .od-steps5__disc::after { content: ""; opacity: 1; transform: none; background: transparent; border: 2px solid var(--terracotta); border-right-color: transparent; width: 14px; height: 14px; right: 0; bottom: 0; animation: od-spin .9s linear infinite; }
 .od-steps5 li.is-wait { opacity: .45; }
-.od-steps5 li.is-done, .od-steps5 li.is-run { animation: od-in .4s ease both; }
+.od-steps5 li.is-done, .od-steps5 li.is-run { animation: od-in 300ms var(--ease-out) both; }
 .od-steps5__k { font-family: var(--font-serif); font-size: 18px; font-weight: 500; color: var(--ink); margin-top: 6px; }
 .od-steps5__d { font-size: 13px; line-height: 19px; color: var(--ink-soft); }
 .od-steps5__t { font: 11px var(--font-mono); color: var(--green); }
@@ -431,7 +435,7 @@ img { max-width: 100%; }
 .od-switch button.lbl { border: 0; background: none; font: inherit; color: inherit; cursor: pointer; padding: 4px 2px; }
 .od-switch button.lbl[aria-pressed="true"] { color: var(--ink); font-weight: 500; }
 .od-switch__track { width: 44px; height: 24px; border-radius: var(--r-pill); background: var(--surface-sunk); border: 1px solid var(--rule-strong); position: relative; cursor: pointer; padding: 0; }
-.od-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); transition: transform .25s ease; }
+.od-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); transition: transform 200ms var(--ease-in-out), background-color 200ms ease; }
 .od-switch__track[aria-checked="true"] { background: var(--green-wash); border-color: var(--green); }
 .od-switch__track[aria-checked="true"]::after { transform: translateX(20px); background: var(--green-deep); }
 .od-switch__track:focus-visible { outline: 2px solid var(--green-deep); outline-offset: 3px; }
@@ -502,7 +506,7 @@ img { max-width: 100%; }
 .od-frame__url { margin-left: 14px; flex: 1; max-width: 360px; height: 22px; border-radius: 6px; background: var(--paper); border: 1px solid var(--rule); font: 11px/20px var(--font-mono); color: var(--ink-soft); padding: 0 10px; }
 .od-frame img { display: block; width: 100%; height: auto; }
 .od-show__panel[hidden] { display: none; }
-.od-show__panel { position: relative; animation: od-in .35s ease both; }
+.od-show__panel { position: relative; animation: od-panel 250ms var(--ease-out) both; }
 .od-callout { position: absolute; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: color-mix(in srgb, var(--paper) 92%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--rule); box-shadow: var(--shadow-md); font-size: 14px; line-height: 19px; color: var(--ink); max-width: 280px; }
 .od-callout b { font-weight: 600; }
 .od-callout .od-live { flex-shrink: 0; }
@@ -529,7 +533,7 @@ img { max-width: 100%; }
 .od-maha__name { font-family: var(--font-serif); font-size: 20px; line-height: 1.2; }
 .od-maha__role { font-size: 13px; color: var(--ink-soft); }
 .od-maha__thread { padding: 22px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
-.od-msg { max-width: 84%; padding: 12px 16px; font-size: 15px; line-height: 23px; border-radius: 18px; animation: od-in .35s ease both; }
+.od-msg { max-width: 84%; padding: 12px 16px; font-size: 15px; line-height: 23px; border-radius: 18px; animation: od-msg 250ms var(--ease-out) both; }
 .od-msg--a { align-self: flex-start; background: var(--canvas); border: 1px solid var(--rule); border-bottom-left-radius: 6px; color: var(--ink); }
 .od-msg--u { align-self: flex-end; background: var(--green-deep); color: var(--surface); border-bottom-right-radius: 6px; }
 .od-msg--typing { display: inline-flex; gap: 5px; align-items: center; padding: 16px 18px; }
@@ -602,3 +606,48 @@ img { max-width: 100%; }
   .od-phone { scroll-snap-align: center; }
   .od-phone:nth-child(2) { transform: none; }
 }
+
+
+/* ═══════════ Motion pass (animation skills: animate / review-animations) ═══════════ */
+@keyframes od-panel { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes od-msg { from { opacity: 0; transform: translateY(6px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes od-num { from { opacity: 0; transform: translateY(40%); } to { opacity: 1; transform: none; } }
+
+/* Press feedback on everything pressable */
+.od-btn:active:not([disabled]), .od-addon__btn:active, .od-show__tabs button:active, .od-chips button:active:not([disabled]),
+.od-switch button.lbl:active, .od-play:active .od-play__btn, .od-maha__send:active { transform: scale(0.97); }
+.od-addon__btn, .od-show__tabs button, .od-chips button, .od-maha__send, .od-play__btn { transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease, border-color 200ms ease; }
+
+/* Hover lift on cards — pointer devices only */
+.od-plan2, .od-addon, .od-ba__card { transition: transform 200ms var(--ease-out), box-shadow 200ms ease, border-color 200ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .od-plan2:hover, .od-addon:hover { transform: translateY(-3px); }
+  .od-btn--primary:hover, .od-btn--ink:hover { transform: translateY(-1px); }
+  .od-btn--primary:active, .od-btn--ink:active { transform: scale(0.97); }
+}
+
+/* Price changes when billing flips or add-ons change */
+.od-num { display: inline-block; animation: od-num 220ms var(--ease-out) both; }
+
+/* Scroll reveal: marketing sections, fire once. Hidden only when JS is on,
+   so the page is never blank without it. Once visible, no transform is set,
+   so hover lifts on the cards keep working. */
+.od-js [data-reveal]:not([data-visible]) { opacity: 0; transform: translateY(16px); }
+.od-js [data-reveal]:not([data-settled]) { transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
+.od-js [data-reveal-stagger]:not([data-visible]) > * { opacity: 0; transform: translateY(12px); }
+.od-js [data-reveal-stagger]:not([data-settled]) > * { transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
+.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(2) { transition-delay: 60ms; }
+.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(3) { transition-delay: 120ms; }
+.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(4) { transition-delay: 180ms; }
+.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(5) { transition-delay: 240ms; }
+.od-js [data-reveal-stagger]:not([data-settled]) > :nth-child(n+6) { transition-delay: 280ms; }
+
+/* Reduced motion: keep fades, drop movement */
+@media (prefers-reduced-motion: reduce) {
+  .od-js [data-reveal]:not([data-visible]), .od-js [data-reveal-stagger]:not([data-visible]) > * { transform: none !important; }
+  .od-js [data-reveal]:not([data-settled]), .od-js [data-reveal-stagger]:not([data-settled]) > * { transition: opacity 200ms ease !important; transition-delay: 0ms !important; }
+  .od-plan2:hover, .od-addon:hover, .od-btn:hover, .od-btn:active, .od-addon__btn:active, .od-show__tabs button:active, .od-chips button:active { transform: none !important; }
+  .od-show__panel, .od-msg, .od-num, .od-steps5 li { animation: od-fade 200ms ease both !important; }
+  .od-switch__track::after { transition: transform 1ms, background-color 200ms ease; }
+}
+@keyframes od-fade { from { opacity: 0; } to { opacity: 1; } }

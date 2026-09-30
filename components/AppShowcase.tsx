@@ -20,7 +20,7 @@ export function AppShowcase() {
       <p className="od-show__caption">
         <b>{panel.caption[0]}</b> {panel.caption[1]}
       </p>
-      <div className="od-show__stage">
+      <div className="od-show__stage" data-reveal>
         <div className="od-show__panel" role="tabpanel" key={panel.key}>
           {"phones" in panel ? (
             <div className="od-phones">
