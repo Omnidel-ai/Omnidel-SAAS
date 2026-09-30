@@ -155,7 +155,7 @@ img { max-width: 100%; }
 /* ── Trust strip ──────────────────────────────────────── */
 .od-trust { padding: 36px 0 8px; text-align: center; display: grid; gap: 22px; }
 .od-trust__row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px 40px; font-family: var(--font-serif); font-size: 17px; color: var(--ink-soft); }
-.od-trust__row span small { display: block; font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); opacity: .8; }
+.od-trust__row > * small { display: block; font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); opacity: .8; }
 
 /* ── Product cards ────────────────────────────────────── */
 .od-products { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -602,3 +602,8 @@ img { max-width: 100%; }
   .od-phone { scroll-snap-align: center; }
   .od-phone:nth-child(2) { transform: none; }
 }
+
+/* Scroll progress bar (spring-smoothed, see components/Motion.tsx) */
+.od-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green-deep), var(--terracotta)); transform-origin: 0 50%; z-index: 60; pointer-events: none; }
+.od-hero3__text { will-change: transform, opacity; }
+.od-show__stage { will-change: transform; }
