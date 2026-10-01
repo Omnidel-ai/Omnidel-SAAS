@@ -104,13 +104,16 @@ export const showcase = [
   {
     key: "review",
     tab: "Scores",
-    url: "app.omnidel.ai/omnipulse/review",
-    image: "/screens/review.webp",
-    caption: ["Work scored fairly, every day.", "An Acharya reviews each photo."],
-    callouts: [
-      { kind: "dark", value: "9.2", text: "Site photo, Newtown block C · scored by an Acharya", style: { top: "54%", right: "-4%" } },
-      { kind: "live", text: "**3** waiting for the captain’s nod", style: { bottom: "-10%", left: "6%" } },
+    url: "OmniPulse · mobile app",
+    image: "/screens/pulse-review.webp",
+    caption: ["Work scored fairly, every day.", "An Acharya reviews each photo, the captain gives the nod."],
+    /** Phone screens from the OmniPulse app (omnipulse-wine.vercel.app). */
+    phones: [
+      { image: "/screens/pulse-review.webp", label: "Review queue" },
+      { image: "/screens/pulse-score.webp", label: "Scored by MahAcharya’ji" },
+      { image: "/screens/pulse-decide.webp", label: "Captain’s nod" },
     ],
+    callouts: [{ kind: "live", text: "**14** waiting for the captain’s nod", style: { bottom: "18%", right: "4%" } }],
   },
   {
     key: "acharyas",
