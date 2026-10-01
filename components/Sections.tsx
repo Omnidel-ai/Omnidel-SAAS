@@ -61,8 +61,11 @@ export function Trust() {
       <span className="od-eyebrow">{trust.title}</span>
       <Stagger className="od-trust__row">
         {trust.items.map((t) => (
-          <StaggerItem key={t.name}>
-            {t.name}
+          <StaggerItem key={t.name} className={t.name.startsWith("Live") ? "od-trust__item od-trust__item--live" : "od-trust__item"}>
+            <strong>
+              {t.name.startsWith("Live") && <span className="od-live" aria-hidden="true" />}
+              {t.name}
+            </strong>
             <small>{t.note}</small>
           </StaggerItem>
         ))}
