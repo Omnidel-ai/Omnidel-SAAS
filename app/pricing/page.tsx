@@ -3,6 +3,7 @@ import { AskPill, Footer, Nav, SectionHead } from "@/components/Chrome";
 import { Pricing } from "@/components/Pricing";
 import { BeforeAfter, Faq } from "@/components/Sections";
 import { Steps } from "@/components/Steps";
+import { scene } from "@/lib/scenes";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -10,12 +11,13 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
+  const bg = scene("hero");
   return (
     <>
       <section className="od-hero" style={{ paddingBottom: 40 }}>
-        <div className="od-scene-wrap od-scene-wrap--fade" style={{ height: 620, opacity: 0.8 }}>
+        <div className={`od-scene-wrap od-scene-wrap--fade${bg.photo ? " od-scene-wrap--photo" : ""}`} style={{ height: 620, opacity: 0.8 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="od-scene" src="/scenes/hero.svg" alt="" />
+          <img className="od-scene" src={bg.src} alt="" />
         </div>
         <Nav current="Pricing" />
         <main id="main" className="od-wrap" style={{ position: "relative", paddingTop: 64 }}>

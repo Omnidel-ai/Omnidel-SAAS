@@ -2,15 +2,17 @@ import Link from "next/link";
 import { beforeAfter, brand, closing, faq, hero, trust } from "@/content/site";
 import { Nav } from "./Chrome";
 import { Icon } from "./Icon";
+import { scene } from "@/lib/scenes";
 import { HeroFade, Parallax, Reveal, Stagger, StaggerItem } from "./Motion";
 
 export function Hero() {
+  const bg = scene("hero");
   return (
     <section className="od-hero od-hero--calm">
-      <div className="od-scene-wrap">
+      <div className={`od-scene-wrap${bg.photo ? " od-scene-wrap--photo" : ""}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Parallax style={{ position: "absolute", inset: 0 }} speed={0.35}>
-          <img className="od-scene" src="/scenes/hero.svg" alt="" style={{ objectPosition: "center" }} />
+          <img className="od-scene" src={bg.src} alt="" style={{ objectPosition: bg.photo ? "70% center" : "center" }} />
         </Parallax>
       </div>
       <Nav />
@@ -122,12 +124,13 @@ export function Faq() {
 }
 
 export function Closing() {
+  const bg = scene("closing");
   return (
     <section className="od-closing">
-      <div className="od-scene-wrap">
+      <div className={`od-scene-wrap${bg.photo ? " od-scene-wrap--photo od-scene-wrap--photo-r" : ""}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Parallax style={{ position: "absolute", inset: 0 }} speed={0.25}>
-          <img className="od-scene" src="/scenes/closing.svg" alt="" style={{ objectPosition: "left bottom" }} />
+          <img className="od-scene" src={bg.src} alt="" style={{ objectPosition: bg.photo ? "center" : "left bottom" }} />
         </Parallax>
       </div>
       <div className="od-wrap">

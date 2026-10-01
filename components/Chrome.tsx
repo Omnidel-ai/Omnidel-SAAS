@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { brand, footer, nav } from "@/content/site";
 import { Reveal } from "./Motion";
+import { StickyHeader } from "./StickyHeader";
 
 export function Brand() {
   return (
@@ -13,7 +14,7 @@ export function Brand() {
 
 export function Nav({ current }: { current?: string }) {
   return (
-    <header className="od-nav">
+    <StickyHeader>
       <div className="od-wrap od-nav__bar">
         <Brand />
         <nav className="od-nav__links" aria-label="Main">
@@ -32,7 +33,7 @@ export function Nav({ current }: { current?: string }) {
           </a>
         </div>
       </div>
-    </header>
+    </StickyHeader>
   );
 }
 
