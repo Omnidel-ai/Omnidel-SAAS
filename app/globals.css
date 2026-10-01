@@ -645,14 +645,11 @@ img { max-width: 100%; }
 .od-show__stage { will-change: transform; }
 
 
-/* ═══════════ Sticky header: hides on scroll down, returns on scroll up ═══════════ */
+/* ═══════════ Sticky header: always fixed at the top ═══════════ */
 .od-nav-spacer { position: relative; z-index: 50; height: 76px; }
-.od-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transform: translateY(0); transition: transform 280ms var(--ease-out), background-color 200ms ease, box-shadow 200ms ease; }
-.od-nav[data-hidden] { transform: translateY(-100%); }
-.od-nav:focus-within { transform: translateY(0); }
+.od-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background-color 200ms ease, box-shadow 200ms ease; }
 .od-nav[data-scrolled] { background: color-mix(in srgb, var(--canvas) 84%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 1px 0 color-mix(in srgb, var(--rule) 80%, transparent); }
 .od-progress { z-index: 70; }
-@media (prefers-reduced-motion: reduce) { .od-nav { transition: background-color 200ms ease, box-shadow 200ms ease; } }
 
 /* ═══════════ Agent: two sections (you say it · the agent does it) ═══════════ */
 .od-agent2 { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr); gap: 20px; max-width: 1180px; margin: -150px auto 0; }
