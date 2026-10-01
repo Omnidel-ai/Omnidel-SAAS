@@ -58,6 +58,10 @@
   --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px rgba(26, 31, 23, 0.04);
   --shadow-md: 0 1px 2px rgba(26, 31, 23, 0.04), 0 8px 24px -10px rgba(26, 31, 23, 0.12);
   --shadow-lg: 0 2px 4px rgba(26, 31, 23, 0.04), 0 24px 48px -20px rgba(37, 74, 51, 0.28);
+  /* motion (Emil Kowalski's curves) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   /* type */
   --font-serif: "Fraunces Variable", "Fraunces", "PT Serif", Georgia, serif;
   --font-sans: "Inter Tight", "Inter", system-ui, -apple-system, sans-serif;
@@ -106,7 +110,7 @@ img { max-width: 100%; }
 .od-brand__name { font-family: var(--font-serif); font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
 
 /* ── Buttons ──────────────────────────────────────────── */
-.od-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 26px; border-radius: var(--r-pill); font: 500 15px/20px var(--font-sans); border: 1px solid transparent; cursor: pointer; transition: background .15s, border-color .15s, transform .15s; white-space: nowrap; }
+.od-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 26px; border-radius: var(--r-pill); font: 500 15px/20px var(--font-sans); border: 1px solid transparent; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 160ms var(--ease-out); white-space: nowrap; }
 .od-btn:focus-visible { outline: 2px solid var(--green-deep); outline-offset: 3px; }
 .od-btn--primary { background: var(--green-deep); color: var(--surface); }
 .od-btn--primary:hover { background: var(--green); }
@@ -123,7 +127,7 @@ img { max-width: 100%; }
 .od-link:hover { border-color: var(--green); }
 
 /* ── Nav ──────────────────────────────────────────────── */
-.od-nav { position: relative; z-index: 2; }
+.od-nav { position: relative; z-index: 2; }  /* superseded by the sticky header rules at the end */
 .od-nav__bar { display: flex; align-items: center; justify-content: space-between; height: 76px; }
 .od-nav__links { display: flex; gap: 34px; font-size: 15px; color: var(--ink-soft); }
 .od-nav__links a:hover { color: var(--ink); }
@@ -153,9 +157,25 @@ img { max-width: 100%; }
 .od-flow__step--pay b { color: var(--ochre-wash); }
 
 /* ── Trust strip ──────────────────────────────────────── */
-.od-trust { padding: 36px 0 8px; text-align: center; display: grid; gap: 22px; }
-.od-trust__row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px 40px; font-family: var(--font-serif); font-size: 17px; color: var(--ink-soft); }
-.od-trust__row span small { display: block; font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); opacity: .8; }
+.od-trust { padding: 56px 0 16px; text-align: center; display: grid; gap: 26px; justify-items: center; }
+.od-trust > .od-eyebrow { font-size: 13px; letter-spacing: .2em; }
+.od-trust__row { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.4fr); background: color-mix(in srgb, var(--paper) 88%, transparent); border: 1px solid var(--rule); border-radius: var(--r-2xl); box-shadow: 0 24px 48px -36px rgba(35, 29, 20, .35); overflow: hidden; }
+.od-trust__item { display: grid; gap: 6px; align-content: center; padding: 30px 18px; border-left: 1px solid var(--rule); transition: background-color 150ms ease; }
+.od-trust__item:first-child { border-left: 0; }
+.od-trust__item:hover { background: var(--canvas); }
+.od-trust__item strong { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: 500 26px/1.15 var(--font-serif); letter-spacing: -.01em; color: var(--ink); }
+.od-trust__item small { display: block; font: 500 14px/1.4 var(--font-sans); color: var(--ink-soft); }
+.od-trust__item--live { background: var(--green-wash); }
+.od-trust__item--live:hover { background: var(--green-wash); }
+.od-trust__item--live strong { color: var(--green-deep); }
+@media (max-width: 900px) {
+  .od-trust__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .od-trust__item { border-left: 0; border-top: 1px solid var(--rule); padding: 22px 14px; }
+  .od-trust__item:nth-child(-n+2) { border-top: 0; }
+  .od-trust__item:nth-child(2n) { border-left: 1px solid var(--rule); }
+  .od-trust__item--live { grid-column: 1 / -1; border-left: 0 !important; }
+  .od-trust__item strong { font-size: 21px; white-space: normal; }
+}
 
 /* ── Product cards ────────────────────────────────────── */
 .od-products { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -247,7 +267,7 @@ img { max-width: 100%; }
 
 /* Add-ons */
 .od-addons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.od-addon { border-radius: var(--r-xl); padding: 26px; background: var(--paper); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; transition: border-color .15s, box-shadow .15s; }
+.od-addon { border-radius: var(--r-xl); padding: 26px; background: var(--paper); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; transition: border-color 200ms ease, box-shadow 200ms ease, translate 200ms var(--ease-out); }
 .od-addon:hover { box-shadow: var(--shadow-md); }
 .od-addon[aria-checked="true"] { border-color: var(--green-deep); box-shadow: 0 0 0 1px var(--green-deep); }
 .od-addon__top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -314,7 +334,7 @@ img { max-width: 100%; }
   .od-summary { border-radius: var(--r-xl); flex-direction: column; align-items: stretch; }
   .od-enterprise { flex-direction: column; align-items: flex-start; }
 }
-@media (prefers-reduced-motion: reduce) { .od * { transition: none !important; } }
+
 
 /* ═══════════ Calm agentic layer (v3) ═════════════════════
    A painted, misty landscape behind the hero and the closing CTA;
@@ -326,7 +346,7 @@ img { max-width: 100%; }
 @keyframes od-sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(.8deg); } }
 @keyframes od-bird { 0% { transform: translate(0,0); } 100% { transform: translate(-160px,-24px); } }
 @keyframes od-spin { to { transform: rotate(1turn); } }
-@keyframes od-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes od-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .od-scene-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .od-scene { width: 100%; height: 100%; display: block; object-fit: cover; }
@@ -383,7 +403,7 @@ img { max-width: 100%; }
 .od-steps5 li.is-run .od-steps5__disc { background: var(--paper); box-shadow: 0 0 0 6px color-mix(in srgb, var(--paper) 80%, transparent), 0 0 0 7px var(--terra-soft); }
 .od-steps5 li.is-run .od-steps5__disc::after { content: ""; opacity: 1; transform: none; background: transparent; border: 2px solid var(--terracotta); border-right-color: transparent; width: 14px; height: 14px; right: 0; bottom: 0; animation: od-spin .9s linear infinite; }
 .od-steps5 li.is-wait { opacity: .45; }
-.od-steps5 li.is-done, .od-steps5 li.is-run { animation: od-in .4s ease both; }
+.od-steps5 li.is-done, .od-steps5 li.is-run { animation: od-in 300ms var(--ease-out) both; }
 .od-steps5__k { font-family: var(--font-serif); font-size: 18px; font-weight: 500; color: var(--ink); margin-top: 6px; }
 .od-steps5__d { font-size: 13px; line-height: 19px; color: var(--ink-soft); }
 .od-steps5__t { font: 11px var(--font-mono); color: var(--green); }
@@ -431,7 +451,7 @@ img { max-width: 100%; }
 .od-switch button.lbl { border: 0; background: none; font: inherit; color: inherit; cursor: pointer; padding: 4px 2px; }
 .od-switch button.lbl[aria-pressed="true"] { color: var(--ink); font-weight: 500; }
 .od-switch__track { width: 44px; height: 24px; border-radius: var(--r-pill); background: var(--surface-sunk); border: 1px solid var(--rule-strong); position: relative; cursor: pointer; padding: 0; }
-.od-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); transition: transform .25s ease; }
+.od-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); transition: transform 200ms var(--ease-in-out), background-color 200ms ease; }
 .od-switch__track[aria-checked="true"] { background: var(--green-wash); border-color: var(--green); }
 .od-switch__track[aria-checked="true"]::after { transform: translateX(20px); background: var(--green-deep); }
 .od-switch__track:focus-visible { outline: 2px solid var(--green-deep); outline-offset: 3px; }
@@ -502,7 +522,7 @@ img { max-width: 100%; }
 .od-frame__url { margin-left: 14px; flex: 1; max-width: 360px; height: 22px; border-radius: 6px; background: var(--paper); border: 1px solid var(--rule); font: 11px/20px var(--font-mono); color: var(--ink-soft); padding: 0 10px; }
 .od-frame img { display: block; width: 100%; height: auto; }
 .od-show__panel[hidden] { display: none; }
-.od-show__panel { position: relative; animation: od-in .35s ease both; }
+.od-show__panel { position: relative; animation: od-panel 250ms var(--ease-out) both; }
 .od-callout { position: absolute; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: color-mix(in srgb, var(--paper) 92%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--rule); box-shadow: var(--shadow-md); font-size: 14px; line-height: 19px; color: var(--ink); max-width: 280px; }
 .od-callout b { font-weight: 600; }
 .od-callout .od-live { flex-shrink: 0; }
@@ -529,7 +549,7 @@ img { max-width: 100%; }
 .od-maha__name { font-family: var(--font-serif); font-size: 20px; line-height: 1.2; }
 .od-maha__role { font-size: 13px; color: var(--ink-soft); }
 .od-maha__thread { padding: 22px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
-.od-msg { max-width: 84%; padding: 12px 16px; font-size: 15px; line-height: 23px; border-radius: 18px; animation: od-in .35s ease both; }
+.od-msg { max-width: 84%; padding: 12px 16px; font-size: 15px; line-height: 23px; border-radius: 18px; animation: od-msg 250ms var(--ease-out) both; }
 .od-msg--a { align-self: flex-start; background: var(--canvas); border: 1px solid var(--rule); border-bottom-left-radius: 6px; color: var(--ink); }
 .od-msg--u { align-self: flex-end; background: var(--green-deep); color: var(--surface); border-bottom-right-radius: 6px; }
 .od-msg--typing { display: inline-flex; gap: 5px; align-items: center; padding: 16px 18px; }
@@ -601,4 +621,78 @@ img { max-width: 100%; }
   .od-phones { grid-template-columns: repeat(3, 72%); overflow-x: auto; justify-content: start; scroll-snap-type: x mandatory; padding: 8px 16px 16px; margin: 0 -16px; }
   .od-phone { scroll-snap-align: center; }
   .od-phone:nth-child(2) { transform: none; }
+}
+
+
+/* ═══════════ Motion pass (animation skills: animate / review-animations) ═══════════ */
+@keyframes od-panel { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes od-msg { from { opacity: 0; transform: translateY(6px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes od-num { from { opacity: 0; transform: translateY(40%); } to { opacity: 1; transform: none; } }
+
+/* Press feedback on everything pressable */
+.od-btn:active:not([disabled]), .od-addon__btn:active, .od-show__tabs button:active, .od-chips button:active:not([disabled]),
+.od-switch button.lbl:active, .od-play:active .od-play__btn, .od-maha__send:active { transform: scale(0.97); }
+.od-addon__btn, .od-show__tabs button, .od-chips button, .od-maha__send, .od-play__btn { transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease, border-color 200ms ease; }
+
+/* Hover lift on cards — pointer devices only */
+/* Cards are entered by Motion (inline transform), so hover uses the separate `translate` property. */
+.od-plan2, .od-addon, .od-ba__card { transition: translate 200ms var(--ease-out), box-shadow 200ms ease, border-color 200ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .od-plan2:hover, .od-addon:hover { translate: 0 -3px; }
+  .od-btn--primary:hover, .od-btn--ink:hover { transform: translateY(-1px); }
+  .od-btn--primary:active, .od-btn--ink:active { transform: scale(0.97); }
+}
+
+/* Price changes when billing flips or add-ons change */
+.od-num { display: inline-block; animation: od-num 220ms var(--ease-out) both; }
+
+/* Reduced motion: keep fades, drop movement */
+@media (prefers-reduced-motion: reduce) {
+  .od-plan2:hover, .od-addon:hover { translate: none !important; }
+  .od-btn:hover, .od-btn:active, .od-addon__btn:active, .od-show__tabs button:active, .od-chips button:active { transform: none !important; }
+  .od-show__panel, .od-msg, .od-num, .od-steps5 li { animation: od-fade 200ms ease both !important; }
+  .od-switch__track::after { transition: transform 1ms, background-color 200ms ease; }
+}
+@keyframes od-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Scroll progress bar (spring-smoothed, see components/Motion.tsx) */
+.od-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green-deep), var(--terracotta)); transform-origin: 0 50%; z-index: 60; pointer-events: none; }
+.od-hero3__text { will-change: transform, opacity; }
+.od-show__stage { will-change: transform; }
+
+
+/* ═══════════ Sticky header: always fixed at the top ═══════════ */
+.od-nav-spacer { position: relative; z-index: 50; height: 76px; }
+.od-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background-color 200ms ease, box-shadow 200ms ease; }
+.od-nav[data-scrolled] { background: color-mix(in srgb, var(--canvas) 84%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 1px 0 color-mix(in srgb, var(--rule) 80%, transparent); }
+.od-progress { z-index: 70; }
+
+/* ═══════════ Agent: two sections (you say it · the agent does it) ═══════════ */
+.od-agent2 { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr); gap: 20px; max-width: 1180px; margin: -150px auto 0; }
+.od-agent-card { border-radius: 28px; background: color-mix(in srgb, var(--paper) 80%, transparent); -webkit-backdrop-filter: blur(16px) saturate(1.1); backdrop-filter: blur(16px) saturate(1.1); border: 1px solid color-mix(in srgb, var(--rule) 80%, transparent); box-shadow: 0 30px 60px -36px rgba(110, 74, 51, .35); padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+.od-agent-card__bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.od-agent-card__k { font: 500 11px/16px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--terracotta); }
+.od-agent-card--voice .od-voice { flex: 1; }
+.od-agent-card__reply { display: flex; gap: 12px; align-items: flex-start; transition: opacity 400ms ease; }
+.od-agent-card__reply p { margin: 0; background: var(--paper); border: 1px solid var(--rule); border-radius: 16px 16px 16px 4px; padding: 12px 14px; font-size: 14px; line-height: 21px; color: var(--ink); }
+.od-agent-card__reply b { color: var(--green-deep); }
+.od-agent-card--steps .od-steps5 { flex: none; margin: auto 0; padding: 8px 0 0; }
+.od-agent-card--steps .od-steps5::before { top: 37px; }
+@media (max-width: 860px) {
+  .od-agent2 { grid-template-columns: 1fr; margin: -140px 16px 0; }
+}
+
+/* Real photo backgrounds (public/scenes/hero.jpg, closing.jpg): warmed to the
+   brand palette, with a haze and a fade on the text side so copy stays readable. */
+.od-scene-wrap--photo img.od-scene { filter: sepia(0.28) saturate(0.85) brightness(1.06) contrast(0.92); }
+.od-scene-wrap--photo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--canvas) 0%, color-mix(in srgb, var(--canvas) 88%, transparent) 34%, color-mix(in srgb, var(--canvas) 20%, transparent) 62%, transparent 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--haze) 35%, transparent) 0%, transparent 40%, color-mix(in srgb, var(--canvas) 70%, transparent) 82%, var(--canvas) 100%); }
+.od-scene-wrap--photo-r::after {
+  background:
+    linear-gradient(270deg, var(--canvas) 0%, color-mix(in srgb, var(--canvas) 88%, transparent) 36%, color-mix(in srgb, var(--canvas) 15%, transparent) 64%, transparent 100%),
+    linear-gradient(180deg, var(--canvas) 0%, transparent 28%); }
+@media (max-width: 860px) {
+  .od-scene-wrap--photo::after { background: linear-gradient(180deg, color-mix(in srgb, var(--canvas) 70%, transparent), color-mix(in srgb, var(--canvas) 92%, transparent)); }
 }
