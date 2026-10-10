@@ -787,8 +787,14 @@ img { max-width: 100%; }
 .is-speaking .od-ahero__ring { animation: od-ring 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite; }
 .is-speaking .od-ahero__ring--2 { animation-delay: 1.2s; }
 .od-ahero__figure { position: relative; height: 100%; width: 100%; overflow: hidden; display: grid; place-items: start center; -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent); mask-image: linear-gradient(to bottom, #000 82%, transparent); }
-.od-ahero__body { display: block; width: min(380px, 100%); height: auto; transform-origin: 50% 100%; animation: od-breathe 5.5s ease-in-out infinite; margin-top: 2%; }
-.is-speaking .od-ahero__body { animation-duration: 3.2s; }
+.od-ahero__person { position: relative; width: min(380px, 100%); margin-top: 2%; transform-origin: 50% 100%; animation: od-breathe 5.5s ease-in-out infinite; }
+.od-ahero__body { display: block; width: 100%; height: auto; transition: opacity 220ms ease; }
+.od-ahero__lower { position: absolute; inset: 0; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom, transparent 33%, #000 33.5%); mask-image: linear-gradient(to bottom, transparent 33%, #000 33.5%); }
+.is-speaking .od-ahero__body { opacity: 0; }
+/* The talking video covers his head and shoulders exactly (same source crop), blended so its white background disappears. */
+.od-ahero__talk { position: absolute; left: -2.78%; top: -0.5%; width: 111.11%; height: auto; aspect-ratio: 1; opacity: 0; pointer-events: none; transition: opacity 220ms ease; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 2.5%, #000 88%, transparent 97.75%); mask-image: linear-gradient(to bottom, transparent 0, #000 2.5%, #000 88%, transparent 97.75%); }
+.is-speaking .od-ahero__talk { opacity: 1; }
+.is-speaking .od-ahero__person { animation-duration: 3.2s; }
 .od-ahero__stage .od-ahero__badge { top: 16%; right: 2%; }
 .od-ahero__caption { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); width: min(420px, 94%); margin: 0; padding: 12px 18px; border-radius: 16px; background: color-mix(in srgb, var(--ink) 86%, transparent); color: var(--surface); font: 400 17px/1.4 var(--font-serif); text-align: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: var(--shadow-lg); z-index: 2; }
 .od-ahero__caption[style] { left: 0; right: 0; margin: 0 auto; }
@@ -803,7 +809,7 @@ img { max-width: 100%; }
   .od-ahero__stage { height: 520px; order: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .od-ahero__body, .od-ahero__halo, .is-speaking .od-ahero__ring, .od-ahero__eq i { animation: none !important; }
+  .od-ahero__person, .od-ahero__halo, .is-speaking .od-ahero__ring, .od-ahero__eq i { animation: none !important; }
 }
 
 .od-acharyas__more { justify-self: start; margin-top: 6px; }

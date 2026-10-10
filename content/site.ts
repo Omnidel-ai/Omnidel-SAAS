@@ -296,6 +296,12 @@ export const acharyaPage = {
    */
   intro: {
     src: "/audio/mahacharya-intro.mp3" as string | null,
+    /**
+     * Lip-synced video of the same intro (MoDA talking-head, made from the
+     * full-length image's head and shoulders). It is laid over the figure in
+     * the hero while he speaks, and carries the sound. null = audio only.
+     */
+    video: "/acharyas/mahacharya-talking.mp4" as string | null,
     cues: [0.15, 4.84, 10.63, 14.74, 22.16, 26.5],
     lines: [
       "Namaste. I am MahAcharya Ji,",
