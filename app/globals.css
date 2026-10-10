@@ -780,6 +780,32 @@ img { max-width: 100%; }
 .od-maha__av { overflow: visible; }
 .od-meet { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .od-meet__av { width: 132px; height: 132px; }
+/* Acharya hero: animated full-length MahAcharya Ji */
+.od-ahero__stage { position: relative; align-self: end; height: min(680px, 76vh); display: grid; place-items: end center; }
+.od-ahero__halo { position: absolute; left: 50%; top: 4%; width: 92%; aspect-ratio: 1; margin-left: -46%; border-radius: 50%; background: radial-gradient(closest-side, var(--ochre-wash), color-mix(in srgb, var(--terra-wash) 70%, transparent) 55%, color-mix(in srgb, var(--green-wash) 60%, transparent) 70%, transparent 74%); animation: od-halo 6s ease-in-out infinite; }
+.od-ahero__ring { position: absolute; left: 50%; top: 4%; width: 64%; aspect-ratio: 1; margin-left: -32%; margin-top: 14%; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--terracotta) 55%, transparent); opacity: 0; pointer-events: none; }
+.is-speaking .od-ahero__ring { animation: od-ring 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite; }
+.is-speaking .od-ahero__ring--2 { animation-delay: 1.2s; }
+.od-ahero__figure { position: relative; height: 100%; width: 100%; overflow: hidden; display: grid; place-items: start center; -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent); mask-image: linear-gradient(to bottom, #000 82%, transparent); }
+.od-ahero__body { display: block; width: min(380px, 100%); height: auto; transform-origin: 50% 100%; animation: od-breathe 5.5s ease-in-out infinite; margin-top: 2%; }
+.is-speaking .od-ahero__body { animation-duration: 3.2s; }
+.od-ahero__stage .od-ahero__badge { top: 16%; right: 2%; }
+.od-ahero__caption { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); width: min(420px, 94%); margin: 0; padding: 12px 18px; border-radius: 16px; background: color-mix(in srgb, var(--ink) 86%, transparent); color: var(--surface); font: 400 17px/1.4 var(--font-serif); text-align: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: var(--shadow-lg); z-index: 2; }
+.od-ahero__caption[style] { left: 0; right: 0; margin: 0 auto; }
+.od-ahero__eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.od-ahero__eq i { width: 3px; height: 100%; border-radius: 2px; background: currentColor; transform-origin: bottom; animation: od-eq 0.9s ease-in-out infinite; }
+.od-ahero__eq i:nth-child(2) { animation-delay: -.3s; } .od-ahero__eq i:nth-child(3) { animation-delay: -.6s; } .od-ahero__eq i:nth-child(4) { animation-delay: -.15s; }
+@keyframes od-breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.008, 1.012); } }
+@keyframes od-halo { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.04); opacity: 1; } }
+@keyframes od-ring { 0% { transform: scale(.9); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes od-eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+@media (max-width: 960px) {
+  .od-ahero__stage { height: 520px; order: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .od-ahero__body, .od-ahero__halo, .is-speaking .od-ahero__ring, .od-ahero__eq i { animation: none !important; }
+}
+
 .od-acharyas__more { justify-self: start; margin-top: 6px; }
 
 @media (max-width: 960px) {

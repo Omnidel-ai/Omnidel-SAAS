@@ -286,6 +286,26 @@ export const acharyaPage = {
   role: "Your 24/7 AI Acharya",
   lead: "A mentor who knows your company, speaks your crew’s language, and is awake whenever the work is.",
   portrait: "/acharyas/acharya-mahacharya.png" as string | null,
+  /** Full-length cut-out (transparent PNG) shown and animated in the hero. */
+  figure: "/acharyas/mahacharya-full.png",
+  /**
+   * MahAcharya Ji introducing himself, in his own words (from his persona in
+   * OmniVarsity), spoken in his OmniVarsity voice (Gemini Live "Charon").
+   * `cues` are the start times (seconds) of each line, for the captions.
+   * Set `src` to null to show captions only.
+   */
+  intro: {
+    src: "/audio/mahacharya-intro.mp3" as string | null,
+    cues: [0.15, 4.84, 10.63, 14.74, 22.16, 26.5],
+    lines: [
+      "Namaste. I am MahAcharya Ji,",
+      "the founding Acharya of KarmYog for the 21st Century.",
+      "Every Acharya here teaches in my line.",
+      "My work is simple: to remove the friction between your intention and your next useful action.",
+      "Speak to me in Hindi, Bengali or English.",
+      "I will meet you where you are, and give you one clear next step at a time.",
+    ],
+  },
   cta: { label: "Book a demo", href: "mailto:ram.badrinathan@jvl.run?subject=Acharya%20demo" },
 
   listen: {
