@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { acharyaPage, acharyas } from "@/content/site";
 import { Icon } from "./Icon";
@@ -11,9 +11,72 @@ const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).p
 
 /* ── Hero ──────────────────────────────────────────────────────────────── */
 
+/**
+ * MahAcharya Ji, full length, gently alive: he rises in, breathes, and the
+ * halo behind him glows. When his introduction plays he "speaks": rings pulse
+ * from the halo and his words appear line by line.
+ */
 export function AcharyaHero() {
   const p = acharyaPage;
   const reduce = useReducedMotion();
+  const audio = useRef<HTMLAudioElement>(null);
+  const [speaking, setSpeaking] = useState(false);
+  const [line, setLine] = useState(-1);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const { scrollY } = useScroll();
+  const drift = useSpring(useTransform(scrollY, [0, 600], [0, reduce ? 0 : 60]), { stiffness: 120, damping: 30, mass: 0.4 });
+  const figureTransform = useTransform(drift, (v: number) => `translateY(${v}px)`);
+
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  function clearTimers() {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  }
+
+  /** Captions without audio: show each line for a reading-paced moment. */
+  function playCaptions() {
+    clearTimers();
+    setSpeaking(true);
+    let t = 0;
+    p.intro.lines.forEach((l, i) => {
+      timers.current.push(setTimeout(() => setLine(i), t));
+      t += 900 + l.length * 45;
+    });
+    timers.current.push(setTimeout(() => { setSpeaking(false); setLine(-1); }, t + 1200));
+  }
+
+  function hear() {
+    const a = audio.current;
+    if (p.intro.src && a) {
+      if (speaking) {
+        a.pause();
+        setSpeaking(false);
+        setLine(-1);
+        return;
+      }
+      a.currentTime = 0;
+      a.play().then(() => setSpeaking(true)).catch(() => playCaptions());
+      return;
+    }
+    if (speaking) {
+      clearTimers();
+      setSpeaking(false);
+      setLine(-1);
+    } else playCaptions();
+  }
+
+  /** With real audio, step the captions along with playback time. */
+  function onTime() {
+    const a = audio.current;
+    if (!a) return;
+    let i = -1;
+    p.intro.cues.forEach((c, k) => {
+      if (a.currentTime >= c - 0.05) i = k;
+    });
+    setLine(i);
+  }
+
   return (
     <div className="od-wrap od-ahero">
       <motion.div
@@ -26,35 +89,64 @@ export function AcharyaHero() {
         <h1 className="od-display-xl">{p.name}</h1>
         <p className="od-lead">{p.lead}</p>
         <div className="od-ahero__ctas">
-          <a className="od-btn od-btn--ink" href="#listen">
-            <Icon name="play" size={14} /> Hear Acharya Ji
-          </a>
+          <button type="button" className="od-btn od-btn--ink" onClick={hear} aria-pressed={speaking}>
+            {speaking ? <span className="od-ahero__eq" aria-hidden="true"><i /><i /><i /><i /></span> : <Icon name="play" size={14} />}
+            {speaking ? "Listening…" : "Hear Acharya Ji"}
+          </button>
           <a className="od-btn od-btn--secondary" href={p.cta.href}>
             {p.cta.label}
           </a>
         </div>
       </motion.div>
-      <motion.div
-        className="od-ahero__portrait"
-        initial={{ opacity: 0, transform: reduce ? "none" : "translateY(40px) scale(0.97)" }}
-        animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
-        transition={{ ...enterSpring, duration: 0.9 }}
-      >
-        {p.portrait ? (
-          <div className="od-ahero__photo">
+
+      <div className={`od-ahero__stage${speaking ? " is-speaking" : ""}`}>
+        <motion.span
+          className="od-ahero__halo"
+          aria-hidden="true"
+          initial={{ opacity: 0, transform: "scale(0.85)" }}
+          animate={{ opacity: 1, transform: "scale(1)" }}
+          transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+        />
+        <span className="od-ahero__ring" aria-hidden="true" />
+        <span className="od-ahero__ring od-ahero__ring--2" aria-hidden="true" />
+        <motion.div
+          className="od-ahero__figure"
+          style={{ transform: figureTransform }}
+        >
+          <motion.div
+            initial={{ opacity: 0, transform: reduce ? "none" : "translateY(70px)" }}
+            animate={{ opacity: 1, transform: "translateY(0px)" }}
+            transition={{ type: "spring", duration: 1.1, bounce: 0.12, delay: 0.15 }}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.portrait} alt="MahAcharya Ji" width={2740} height={1536} />
-          </div>
-        ) : (
-          <div className="od-ahero__mono" aria-label="MahAcharya Ji">
-            <span>M</span>
-            <small>MahAcharya Ji</small>
-          </div>
-        )}
-        <span className="od-ahero__badge">
-          <span className="od-live" /> Online now
-        </span>
-      </motion.div>
+            <img className="od-ahero__body" src={p.figure} alt="MahAcharya Ji" width={360} height={1004} />
+          </motion.div>
+        </motion.div>
+        <motion.span
+          className="od-ahero__badge"
+          initial={{ opacity: 0, transform: "translateY(8px)" }}
+          animate={{ opacity: 1, transform: "translateY(0px)" }}
+          transition={{ ...enterSpring, delay: 0.8 }}
+        >
+          <span className="od-live" /> {speaking ? "Speaking" : "Online now"}
+        </motion.span>
+        <AnimatePresence mode="wait">
+          {line >= 0 ? (
+            <motion.p
+              key={line}
+              className="od-ahero__caption"
+              initial={{ opacity: 0, transform: "translateY(8px)" }}
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
+              exit={{ opacity: 0, transform: "translateY(-6px)", transition: { duration: 0.18 } }}
+              transition={enterSpring}
+              aria-live="polite"
+            >
+              {p.intro.lines[line]}
+            </motion.p>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
       <motion.p
         className="od-ahero__role"
         initial={{ opacity: 0 }}
@@ -63,6 +155,15 @@ export function AcharyaHero() {
       >
         {p.role}
       </motion.p>
+      {p.intro.src ? (
+        <audio
+          ref={audio}
+          src={p.intro.src}
+          preload="metadata"
+          onTimeUpdate={onTime}
+          onEnded={() => { setSpeaking(false); setLine(-1); }}
+        />
+      ) : null}
     </div>
   );
 }
