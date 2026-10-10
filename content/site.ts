@@ -131,17 +131,15 @@ export const showcase = [
   },
 ] as const;
 
-/** The OmniVarsity roster, as the app lists it. */
-export const acharyas = [
-  { initials: "M", name: "MahAcharya Ji", field: "Founder", color: "#254a33" },
-  { initials: "VA", name: "Vivek", field: "Finance", color: "#254a33" },
-  { initials: "NA", name: "Neeranjan", field: "Farming", color: "#1f6f5c" },
-  { initials: "LA", name: "Lakshman", field: "Sales", color: "#8b3320" },
-  { initials: "GA", name: "Gitanjali", field: "Quality", color: "#a5711a" },
-  { initials: "AA", name: "Ananya", field: "Language", color: "#a74a2d" },
-  { initials: "BA", name: "Bikram", field: "Dispatch", color: "#8b3320" },
-  { initials: "EA", name: "Esha", field: "Support", color: "#7a3b22" },
-  { initials: "SA", name: "Soumyajit", field: "Focus", color: "#1f3d2b" },
+/** The OmniVarsity roster, as the app lists it (dev.omnidel.ai/omnivarsity/acharyas). Photos in public/acharyas/. */
+export const acharyas: { initials: string; name: string; field: string; color: string; photo?: string }[] = [
+  { initials: "M", name: "MahAcharya Ji", field: "Founder", color: "#254a33", photo: "/acharyas/acharya-mahacharya.webp" },
+  { initials: "SA", name: "Dr Swapan", field: "Health", color: "#7a3b22", photo: "/acharyas/acharya-swapan.webp" },
+  { initials: "NA", name: "Neeranjan", field: "Farming", color: "#1f6f5c", photo: "/acharyas/acharya-neeranjan.webp" },
+  { initials: "SA", name: "Subhas", field: "Business", color: "#8b3320", photo: "/acharyas/acharya-subhas.webp" },
+  { initials: "VA", name: "Vivek", field: "Finance", color: "#254a33", photo: "/acharyas/acharya-vivek.webp" },
+  { initials: "LA", name: "Lakshman", field: "Sales", color: "#a5711a", photo: "/acharyas/acharya-lakshman.webp" },
+  { initials: "SA", name: "Soumyajit", field: "Focus", color: "#a74a2d", photo: "/acharyas/acharya-soumyajit.webp" },
 ];
 
 /** MahAcharya Ji's guide chat. Scripted until wired to the app's MahAcharya assistant. */
@@ -279,16 +277,15 @@ export const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
  * The Acharya page (/acharya). Hero, "Listen to Acharya Ji" voice clips, what an
  * Acharya can do, app screens and the other Acharyas.
  *
- * Portrait: drop an approved cut-out PNG (transparent background) at
- * public/acharyas/mahacharya.png and set `portrait` below. Until then the hero
- * shows the "M" monogram.
+ * Portrait: MahAcharya Ji's photo from the OmniVarsity app. Set `portrait` to
+ * null to fall back to the "M" monogram; swap in a transparent cut-out later.
  */
 export const acharyaPage = {
   hello: "Hello,",
   name: "I’m Acharya Ji",
   role: "Your 24/7 AI Acharya",
   lead: "A mentor who knows your company, speaks your crew’s language, and is awake whenever the work is.",
-  portrait: null as string | null,
+  portrait: "/acharyas/acharya-mahacharya.webp" as string | null,
   cta: { label: "Book a demo", href: "mailto:ram.badrinathan@jvl.run?subject=Acharya%20demo" },
 
   listen: {

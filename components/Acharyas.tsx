@@ -49,7 +49,9 @@ function MahAcharyaChat() {
     <div className="od-maha">
       <div className="od-maha__head">
         <span className="od-maha__av">
-          M<span className="od-live" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/acharyas/acharya-mahacharya.webp" alt="" width={104} height={104} />
+          <span className="od-live" />
         </span>
         <div>
           <div className="od-maha__name">{mahacharya.name}</div>
@@ -114,12 +116,17 @@ export function AcharyasSection() {
           <h2 className="od-display">
             A mentor for <em style={{ color: "var(--terracotta)" }}>every</em> worker
           </h2>
-          <p className="od-lead">Nine AI Acharyas who score the work, teach in the worker’s language, and never lose patience.</p>
+          <p className="od-lead">AI Acharyas who score the work, teach in the worker’s language, and never lose patience.</p>
           <Stagger className="od-roster">
             {acharyas.map((a) => (
               <StaggerItem className="od-roster__p" key={a.name}>
                 <span className="od-roster__av" style={{ background: a.color }}>
-                  {a.initials}
+                  {a.photo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={a.photo} alt="" width={112} height={112} loading="lazy" />
+                  ) : (
+                    a.initials
+                  )}
                 </span>
                 <span className="od-roster__n">{a.name}</span>
                 <span className="od-roster__k">{a.field}</span>

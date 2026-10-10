@@ -41,8 +41,10 @@ export function AcharyaHero() {
         transition={{ ...enterSpring, duration: 0.9 }}
       >
         {p.portrait ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={p.portrait} alt="MahAcharya Ji" />
+          <div className="od-ahero__photo">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.portrait} alt="MahAcharya Ji" width={1400} height={785} />
+          </div>
         ) : (
           <div className="od-ahero__mono" aria-label="MahAcharya Ji">
             <span>M</span>
@@ -315,7 +317,14 @@ export function OtherAcharyas() {
           {list.map((a) => (
             <StaggerItem key={a.name}>
               <div className="od-meet__card" tabIndex={0} style={{ "--tone": a.color } as React.CSSProperties}>
-                <span className="od-meet__av">{a.initials}</span>
+                <span className="od-meet__av">
+                  {a.photo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={a.photo} alt="" width={240} height={240} loading="lazy" />
+                  ) : (
+                    a.initials
+                  )}
+                </span>
                 <span className="od-meet__name">{a.name} Acharya</span>
                 <span className="od-meet__field">{a.field}</span>
                 <span className="od-meet__hello">

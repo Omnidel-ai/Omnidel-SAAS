@@ -774,6 +774,12 @@ img { max-width: 100%; }
 .od-meet__card:hover .od-meet__av, .od-meet__card:focus-visible .od-meet__av { transform: scale(1.08); }
 .od-meet__card:hover .od-meet__hello, .od-meet__card:focus-visible .od-meet__hello { opacity: 1; transform: translateY(0); }
 
+.od-ahero__photo { width: 100%; height: 100%; border-radius: 220px 220px 0 0; overflow: hidden; border: 1px solid var(--rule); border-bottom: 0; background: var(--green-wash); }
+.od-ahero__photo img { display: block; width: 100%; height: 100%; max-height: none; object-fit: cover; object-position: 46% 30%; filter: none; }
+.od-meet__av img, .od-roster__av img, .od-maha__av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 22%; display: block; }
+.od-maha__av { overflow: visible; }
+.od-meet { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.od-meet__av { width: 132px; height: 132px; }
 .od-acharyas__more { justify-self: start; margin-top: 6px; }
 
 @media (max-width: 960px) {
@@ -796,6 +802,7 @@ img { max-width: 100%; }
   .od-mock__row { grid-template-columns: 64px 1fr; }
   .od-mock__row .od-pill { grid-column: 2; justify-self: start; }
   .od-meet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .od-meet__av { width: 96px; height: 96px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .od-meet__card, .od-meet__av, .od-meet__hello, .od-caps__nav a::before { transition: opacity 200ms ease; transform: none !important; }
