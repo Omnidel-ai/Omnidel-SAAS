@@ -19,7 +19,7 @@ const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).p
 export function AcharyaHero() {
   const p = acharyaPage;
   const reduce = useReducedMotion();
-  const audio = useRef<HTMLAudioElement>(null);
+  const audio = useRef<HTMLMediaElement>(null);
   const [speaking, setSpeaking] = useState(false);
   const [line, setLine] = useState(-1);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -118,8 +118,28 @@ export function AcharyaHero() {
             animate={{ opacity: 1, transform: "translateY(0px)" }}
             transition={{ type: "spring", duration: 1.1, bounce: 0.12, delay: 0.15 }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="od-ahero__body" src={p.figure} alt="MahAcharya Ji" width={360} height={1004} />
+            <div className="od-ahero__person">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="od-ahero__body" src={p.figure} alt="MahAcharya Ji" width={360} height={1004} />
+              {p.intro.video ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="od-ahero__lower" src={p.figure} alt="" width={360} height={1004} aria-hidden="true" />
+              ) : null}
+              {p.intro.video ? (
+                <video
+                  ref={audio as React.RefObject<HTMLVideoElement>}
+                  className="od-ahero__talk"
+                  preload="auto"
+                  playsInline
+                  aria-hidden="true"
+                  onTimeUpdate={onTime}
+                  onEnded={() => { setSpeaking(false); setLine(-1); }}
+                >
+                  <source src={p.intro.video.replace(/\.mp4$/, ".webm")} type="video/webm" />
+                  <source src={p.intro.video} type="video/mp4" />
+                </video>
+              ) : null}
+            </div>
           </motion.div>
         </motion.div>
         <motion.span
@@ -155,9 +175,9 @@ export function AcharyaHero() {
       >
         {p.role}
       </motion.p>
-      {p.intro.src ? (
+      {p.intro.src && !p.intro.video ? (
         <audio
-          ref={audio}
+          ref={audio as React.RefObject<HTMLAudioElement>}
           src={p.intro.src}
           preload="metadata"
           onTimeUpdate={onTime}
