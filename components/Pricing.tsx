@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { addOns, inr, plans, pricingCopy, type AddOnId, type Billing, type PlanId } from "@/content/site";
 import { orderToQuery, orderTotal } from "@/lib/order";
+import { motion } from "motion/react";
 import { Icon } from "./Icon";
+import { Reveal, Stagger, useItemVariants } from "./Motion";
 
 export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
   const [billing, setBilling] = useState<Billing>("monthly");
@@ -14,10 +16,11 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
   const checkout = (p: PlanId) => `/checkout?${orderToQuery({ ...order, plan: p })}`;
   const toggle = (id: AddOnId) => setChosen((c) => (c.includes(id) ? c.filter((x) => x !== id) : [...c, id]));
   const planName = plans.find((p) => p.id === plan)?.name;
+  const item = useItemVariants(32);
 
   return (
     <>
-      <div className="od-price-head">
+      <Reveal className="od-price-head">
         <span className="od-eyebrow">{pricingCopy.eyebrow}</span>
         <h2 className="od-display">
           {pricingCopy.title[0]}
@@ -25,7 +28,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
           {pricingCopy.title[2]}
         </h2>
         <p className="od-lead">{pricingCopy.lead}</p>
-      </div>
+      </Reveal>
       <div style={{ display: "flex", justifyContent: "center", margin: "-8px 0 44px" }}>
         <div className="od-switch" role="group" aria-label="Billing period">
           <button type="button" className="lbl" aria-pressed={billing === "monthly"} onClick={() => setBilling("monthly")}>
@@ -46,10 +49,11 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
         </div>
       </div>
 
-      <div className="od-plans2">
+      <Stagger className="od-plans2">
         {plans.map((p) => (
-          <article
+          <motion.article
             key={p.id}
+            variants={item}
             className={`od-plan od-plan2${p.featured ? " od-plan--featured od-plan2--featured" : ""}`}
           >
             <div className="od-plan2__tab">{p.tab}</div>
@@ -68,7 +72,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
               </div>
               <div className="od-plan2__price">
                 <sup>₹</sup>
-                <span>{p.price[billing].toLocaleString("en-IN")}</span>
+                <motion.span data-price key={billing} initial={{ opacity: 0, transform: "translateY(12px)" }} animate={{ opacity: 1, transform: "translateY(0px)" }} transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}>{p.price[billing].toLocaleString("en-IN")}</motion.span>
                 <small>/ worker / month</small>
               </div>
               <p className="od-plan2__note">{billing === "yearly" ? "Billed yearly" : "Billed monthly"} · GST extra</p>
@@ -86,9 +90,9 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
                 {pricingCopy.loginNote}
               </p>
             </div>
-          </article>
+          </motion.article>
         ))}
-      </div>
+      </Stagger>
 
       <div className="od-enterprise">
         <div>
@@ -111,11 +115,11 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
             </h2>
             <p className="od-lead">{pricingCopy.addOnsLead}</p>
           </div>
-          <div className="od-addons">
+          <Stagger className="od-addons">
             {addOns.map((a) => {
               const on = chosen.includes(a.id);
               return (
-                <article key={a.id} className="od-addon od-addon--slim" role="checkbox" aria-checked={on}>
+                <motion.article key={a.id} variants={item} className="od-addon od-addon--slim" role="checkbox" aria-checked={on}>
                   <div className="od-addon__top">
                     <span className="od-addon__icon" style={{ background: a.tint, color: a.ink }}>
                       <Icon name={a.icon} />
@@ -139,10 +143,10 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
                   <button className="od-addon__btn" type="button" onClick={() => toggle(a.id)}>
                     {on ? "✓ Added" : "+ Add to plan"}
                   </button>
-                </article>
+                </motion.article>
               );
             })}
-          </div>
+          </Stagger>
           <div className="od-summary" aria-live="polite">
             <div>
               <div className="od-summary__items">
@@ -150,7 +154,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
                 {chosen.map((id) => ` · ${addOns.find((a) => a.id === id)?.name}`)}
               </div>
               <div className="od-summary__total">
-                {inr(orderTotal(order))} <small>per worker / month</small>
+                <span className="od-num" key={orderTotal(order)}>{inr(orderTotal(order))}</span> <small>per worker / month</small>
               </div>
             </div>
             <Link className="od-btn od-btn--on-dark" href={checkout(plan)}>

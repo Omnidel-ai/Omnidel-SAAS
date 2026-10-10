@@ -44,47 +44,58 @@ export function AgentStrip() {
   const prompt = agent.prompts[p];
   const done = step >= agent.steps.length;
   return (
-    <div className="od-wrap" id="agent">
-      <div className="od-agent-strip">
-        <div className="od-agent-strip__bar">
+    <div className="od-wrap od-agent2" id="agent">
+      {/* Section 1: what the captain says, and what the agent answers */}
+      <section className="od-agent-card od-agent-card--voice" aria-label="Talk to the agent">
+        <div className="od-agent-card__bar">
           <span className="od-agent-strip__id">
-            <span className="od-brand__badge">O</span>OmniPulse agent <span className="od-small">· {agent.site}</span>
+            <span className="od-brand__badge">O</span>OmniPulse agent
           </span>
+          <span className="od-small">{agent.site}</span>
+        </div>
+        <span className="od-agent-card__k">1 · You say it</span>
+        <div className="od-voice">
+          <div className="od-voice__top">
+            <span className="od-voice__who">{agent.speaker}</span>
+            <span className="od-wave" aria-hidden="true">
+              {Array.from({ length: 10 }, (_, i) => (
+                <i key={i} />
+              ))}
+            </span>
+          </div>
+          <div className="od-voice__text">{typed}</div>
+          <div className="od-voice__lang">{listening ? "listening…" : prompt.lang}</div>
+        </div>
+        <div className="od-agent-card__reply" style={{ opacity: step >= 2 || done ? 1 : 0.3 }}>
+          <span className="od-maha__av" style={{ width: 32, height: 32, fontSize: 13, flex: "none" }}>O</span>
+          <p>
+            <Rich text={prompt.reply} />
+          </p>
+        </div>
+      </section>
+
+      {/* Section 2: the five steps the agent takes on its own */}
+      <section className="od-agent-card od-agent-card--steps" aria-label="What the agent does">
+        <div className="od-agent-card__bar">
+          <span className="od-agent-card__k" style={{ margin: 0 }}>2 · The agent does it</span>
           <span className="od-agent-strip__state" aria-live="polite">
             <span className="od-live" />
             {done ? `Done · ${agent.steps.length} of ${agent.steps.length}` : `Working · ${step + 1} of ${agent.steps.length}`}
           </span>
         </div>
-        <div className="od-agent-strip__body">
-          <div className="od-voice">
-            <div className="od-voice__top">
-              <span className="od-voice__who">{agent.speaker}</span>
-              <span className="od-wave" aria-hidden="true">
-                {Array.from({ length: 10 }, (_, i) => (
-                  <i key={i} />
-                ))}
+        <ol className="od-steps5">
+          {agent.steps.map((s, i) => (
+            <li key={s.label} className={i < step ? "is-done" : i === step ? "is-run" : "is-wait"}>
+              <span className="od-steps5__disc">
+                <Icon name={s.icon} />
               </span>
-            </div>
-            <div className="od-voice__text">{typed}</div>
-            <div className="od-voice__lang">{listening ? "listening…" : prompt.lang}</div>
-            <div className="od-voice__reply" style={{ opacity: step >= 2 || done ? 1 : 0.25 }}>
-              <Rich text={prompt.reply} />
-            </div>
-          </div>
-          <ol className="od-steps5">
-            {agent.steps.map((s, i) => (
-              <li key={s.label} className={i < step ? "is-done" : i === step ? "is-run" : "is-wait"}>
-                <span className="od-steps5__disc">
-                  <Icon name={s.icon} />
-                </span>
-                <span className="od-steps5__k">{s.label}</span>
-                <span className="od-steps5__d">{s.detail}</span>
-                <span className="od-steps5__t">{s.time}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
+              <span className="od-steps5__k">{s.label}</span>
+              <span className="od-steps5__d">{s.detail}</span>
+              <span className="od-steps5__t">{s.time}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
     </div>
   );
 }

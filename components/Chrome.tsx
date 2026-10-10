@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { brand, footer, nav } from "@/content/site";
+import { Reveal } from "./Motion";
+import { StickyHeader } from "./StickyHeader";
 
 export function Brand() {
   return (
@@ -12,7 +14,7 @@ export function Brand() {
 
 export function Nav({ current }: { current?: string }) {
   return (
-    <header className="od-nav">
+    <StickyHeader>
       <div className="od-wrap od-nav__bar">
         <Brand />
         <nav className="od-nav__links" aria-label="Main">
@@ -31,7 +33,7 @@ export function Nav({ current }: { current?: string }) {
           </a>
         </div>
       </div>
-    </header>
+    </StickyHeader>
   );
 }
 
@@ -74,11 +76,11 @@ export function Footer() {
 
 export function SectionHead({ eyebrow, title, lead }: { eyebrow: string; title: React.ReactNode; lead?: string }) {
   return (
-    <div className="od-head">
+    <Reveal className="od-head">
       <span className="od-eyebrow">{eyebrow}</span>
       <h2 className="od-display">{title}</h2>
       {lead ? <p className="od-lead">{lead}</p> : null}
-    </div>
+    </Reveal>
   );
 }
 
