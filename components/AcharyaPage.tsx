@@ -43,7 +43,7 @@ export function AcharyaHero() {
         {p.portrait ? (
           <div className="od-ahero__photo">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.portrait} alt="MahAcharya Ji" width={1400} height={785} />
+            <img src={p.portrait} alt="MahAcharya Ji" width={2740} height={1536} />
           </div>
         ) : (
           <div className="od-ahero__mono" aria-label="MahAcharya Ji">

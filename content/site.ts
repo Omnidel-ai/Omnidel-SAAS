@@ -133,7 +133,7 @@ export const showcase = [
 
 /** The OmniVarsity roster, as the app lists it (dev.omnidel.ai/omnivarsity/acharyas). Photos in public/acharyas/. */
 export const acharyas: { initials: string; name: string; field: string; color: string; photo?: string }[] = [
-  { initials: "M", name: "MahAcharya Ji", field: "Founder", color: "#254a33", photo: "/acharyas/acharya-mahacharya.webp" },
+  { initials: "M", name: "MahAcharya Ji", field: "Founder", color: "#254a33", photo: "/acharyas/acharya-mahacharya.png" },
   { initials: "SA", name: "Dr Swapan", field: "Health", color: "#7a3b22", photo: "/acharyas/acharya-swapan.webp" },
   { initials: "NA", name: "Neeranjan", field: "Farming", color: "#1f6f5c", photo: "/acharyas/acharya-neeranjan.webp" },
   { initials: "SA", name: "Subhas", field: "Business", color: "#8b3320", photo: "/acharyas/acharya-subhas.webp" },
@@ -285,7 +285,7 @@ export const acharyaPage = {
   name: "I’m Acharya Ji",
   role: "Your 24/7 AI Acharya",
   lead: "A mentor who knows your company, speaks your crew’s language, and is awake whenever the work is.",
-  portrait: "/acharyas/acharya-mahacharya.webp" as string | null,
+  portrait: "/acharyas/acharya-mahacharya.png" as string | null,
   cta: { label: "Book a demo", href: "mailto:ram.badrinathan@jvl.run?subject=Acharya%20demo" },
 
   listen: {

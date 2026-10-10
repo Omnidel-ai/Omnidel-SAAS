@@ -50,7 +50,7 @@ function MahAcharyaChat() {
       <div className="od-maha__head">
         <span className="od-maha__av">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/acharyas/acharya-mahacharya.webp" alt="" width={104} height={104} />
+          <img src="/acharyas/acharya-mahacharya.png" alt="" width={104} height={104} />
           <span className="od-live" />
         </span>
         <div>
