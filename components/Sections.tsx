@@ -4,6 +4,7 @@ import { Nav } from "./Chrome";
 import { Icon } from "./Icon";
 import { scene } from "@/lib/scenes";
 import { HeroFade, Parallax, Reveal, Stagger, StaggerItem } from "./Motion";
+import { HeroChat } from "./Landing";
 
 export function Hero() {
   const bg = scene("hero");
@@ -44,12 +45,9 @@ export function Hero() {
             {hero.live}
           </span>
         </HeroFade>
-        <span className="od-hero3__caption" lang="hi">
-          काम से
-          <br />
-          कर्म तक
-          <small style={{ display: "block", font: "12px/18px var(--font-sans)", color: "var(--ink-soft)" }}>{brand.motto.en}</small>
-        </span>
+        <div className="od-hero3__chat">
+          <HeroChat />
+        </div>
       </div>
     </section>
   );

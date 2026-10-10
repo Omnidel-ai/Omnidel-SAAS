@@ -4,6 +4,7 @@ import { AppShowcase } from "@/components/AppShowcase";
 import { AskPill, Footer, SectionHead } from "@/components/Chrome";
 import { Pricing } from "@/components/Pricing";
 import { BeforeAfter, Closing, Hero, Trust } from "@/components/Sections";
+import { Journey, Numbers } from "@/components/Landing";
 import { beforeAfter } from "@/content/site";
 
 export default function Home() {
@@ -13,12 +14,14 @@ export default function Home() {
       <main id="main">
         <AgentStrip />
         <Trust />
+        <Journey />
         <section className="od-section" id="product">
           <div className="od-wrap">
             <SectionHead eyebrow="The product" title="See it in the app" lead="Real screens from OmniPulse and the Acharya app." />
             <AppShowcase />
           </div>
         </section>
+        <Numbers />
         <AcharyasSection />
         <section className="od-section od-section--band">
           <div className="od-wrap">
