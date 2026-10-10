@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { acharyas, mahacharya } from "@/content/site";
 import { Icon } from "./Icon";
@@ -125,6 +126,9 @@ export function AcharyasSection() {
               </StaggerItem>
             ))}
           </Stagger>
+          <Link className="od-btn od-btn--ink od-acharyas__more" href="/acharya">
+            Understand in detail <Icon name="arrow" size={16} />
+          </Link>
         </div>
         <Reveal delay={0.1} distance={40}>
           <MahAcharyaChat />
