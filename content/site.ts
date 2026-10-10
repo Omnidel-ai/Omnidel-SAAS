@@ -418,3 +418,75 @@ export const acharyaPage = {
     lead: "Hover to say hello.",
   },
 };
+
+/* ── Landing revamp: hero chat, journey timeline, numbers ─────────────── */
+
+/**
+ * The chat that types itself out on the right of the hero. Each scene is a
+ * short real-style exchange with an Acharya (taken from the OmniPulse agent
+ * prompts and the Acharya Ji voice clips). The hero cycles through them.
+ */
+export const heroChat = {
+  acharya: "MahAcharya Ji",
+  scenes: [
+    {
+      topic: "Task planning",
+      lang: "Hinglish",
+      msgs: [
+        { from: "u", text: "Kal tak kitchen aur bathroom ki tiling khatam karni hai. Raju aur Meena lagao." },
+        { from: "a", text: "Done. 7 tasks for Raju and Meena, due tomorrow 6 pm. I’ll score each photo as it comes in." },
+      ],
+    },
+    {
+      topic: "Company knowledge",
+      lang: "हिन्दी",
+      msgs: [
+        { from: "u", text: "Acharya Ji, meri kitni chhuttiyan baaki hain?" },
+        { from: "a", text: "Company policy ke anusaar aapke paas 7 casual leave baaki hain. Kya agle Monday ki leave laga doon?" },
+        { from: "u", text: "Haan, laga dijiye." },
+        { from: "a", text: "Ho gaya. Request aapke manager ko bhej di hai." },
+      ],
+    },
+    {
+      topic: "Photo proof",
+      lang: "English",
+      msgs: [
+        { from: "u", text: "Who hasn’t sent photos for Flat 4B yet?" },
+        { from: "a", text: "Arif K. has 2 tasks without proof. I’ve sent him a voice reminder in Hindi." },
+      ],
+    },
+    {
+      topic: "Site work",
+      lang: "বাংলা",
+      msgs: [
+        { from: "u", text: "আজ টাওয়ার সি-তে দেয়ালে পুট্টি শেষ করতে হবে।" },
+        { from: "a", text: "Got it. 4 tasks for Sunita’s crew at Tower C, due today 5 pm. Photos will be scored on arrival." },
+      ],
+    },
+  ],
+} as const;
+
+/** "From sign-up to a working crew": the onboarding steps, in order. */
+export const journey = {
+  eyebrow: "Getting started",
+  title: ["From sign-up to", "a working crew"],
+  lead: "Five steps, and most teams are done in a week.",
+  steps: [
+    { label: "Step 1", title: "Sign up", text: "Create your OmniDEL ID with your mobile number and pick a plan for your team." },
+    { label: "Step 2", title: "Upload knowledge", text: "Share your policies, SOPs and FAQs so your Acharyas learn how your company works." },
+    { label: "Step 3", title: "Sync your system", text: "Add your crew and sites. Acharyas keep their knowledge up to date as things change." },
+    { label: "Step 4", title: "Assign tasks", text: "Say a task out loud, in any language. It lands on the board with an owner and a deadline." },
+    { label: "Step 5", title: "Crew gets to work", text: "Karyakartas use the Acharya app to do the day’s tasks, send photo proof and learn as they go." },
+  ],
+};
+
+/** Numbers we can stand behind today. Add more as pilots report results. */
+export const numbers = {
+  title: ["Built for the way", "India works"],
+  items: [
+    { pre: "", value: 30, suffix: "", label: "Workers onboarded in our live Kolkata pilot" },
+    { pre: "", value: 7, suffix: "", label: "AI Acharyas, each a mentor in its own field", featured: true },
+    { pre: "", value: 24, suffix: "/7", label: "An Acharya is awake whenever the work is" },
+  ],
+  note: "Pilot figures as of October 2026.",
+};
