@@ -84,13 +84,4 @@ export function SectionHead({ eyebrow, title, lead }: { eyebrow: string; title: 
   );
 }
 
-export function AskPill() {
-  return (
-    <a className="od-ask" href="/#acharyas" style={{ position: "fixed" }}>
-      <span className="od-brand__badge">M</span>
-      <span>
-        Ask MahAcharya Ji<small>“How will an Acharya help my crew?”</small>
-      </span>
-    </a>
-  );
-}
+export { AskPill } from "./AskPill";

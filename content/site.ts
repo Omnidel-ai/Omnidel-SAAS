@@ -27,42 +27,65 @@ export const nav = [
 ];
 
 export const hero = {
-  eyebrow: "OmniPulse · an AI agent for work crews",
+  eyebrow: "OmniPulse · AI agent for work crews",
   title: ["Your crew does the work.", "The agent does", "the rest."],
-  lead: "Say what needs doing, in any language. OmniPulse plans the day, checks the photo proof, scores the work and settles the pay — quietly, in the background.",
+  lead: "Say the task in any language. OmniPulse plans it, checks the photo proof, scores the work and settles pay.",
   primary: { label: "Try the agent →", href: "/pricing" },
-  video: { label: "See a day on site", note: "2 min", href: "#agent" },
-  live: "Live pilot in Kolkata · 30 workers on board",
+  video: { label: "See it work", note: "Live demo below", href: "#agent" },
+  live: "Live in Kolkata · 30 workers",
 };
 
-/** The agent strip under the hero: prompts it types, and the five steps it ticks off. */
+/**
+ * The agent demo under the hero. Each run is one voice command and the trace
+ * of what the agent did with it, step by step. `steps` read like an agent log:
+ * a past-tense verb, then the specifics. Times are when each step happened.
+ */
 export const agent = {
-  site: "Flat 4B, New Town",
-  speaker: "Captain Bikram says",
-  langs: "हिन्दी · বাংলা · English",
-  prompts: [
+  name: "OmniPulse agent",
+  you: "You say it",
+  it: "It gets done",
+  runs: [
     {
+      site: "Flat 4B, New Town",
+      speaker: "Captain Bikram",
+      lang: "Hinglish",
       text: "Kal tak kitchen aur bathroom ki tiling khatam karni hai. Raju aur Meena lagao.",
-      lang: "हिन्दी · Hinglish",
-      reply: "Done. **7 tasks** for Raju and Meena, due tomorrow 6 pm. I’ll score each photo as it comes in.",
+      reply: "**7 tasks** set for Raju and Meena, due tomorrow 6 pm.",
+      steps: [
+        { icon: "ear", label: "Understood", detail: "Hinglish voice note", time: "09:02" },
+        { icon: "plan", label: "Planned", detail: "7 tasks · Raju, Meena · due 6 pm", time: "09:02" },
+        { icon: "cam", label: "Checked", detail: "3 photos · tiles level", time: "16:31" },
+        { icon: "score", label: "Scored", detail: "Kitchen tiling · 9.2 / 10", time: "16:31" },
+        { icon: "pay", label: "Paid", detail: "₹640 added to Raju’s pay", time: "16:32" },
+      ],
     },
     {
+      site: "Tower C, New Town",
+      speaker: "Captain Sunita",
+      lang: "বাংলা",
       text: "আজ টাওয়ার সি-তে দেয়ালে পুট্টি শেষ করতে হবে।",
-      lang: "বাংলা · Bengali",
-      reply: "Got it. **4 tasks** for Sunita’s crew at Tower C, due today 5 pm. Photos will be scored on arrival.",
+      reply: "**4 tasks** set for your crew at Tower C, due today 5 pm.",
+      steps: [
+        { icon: "ear", label: "Understood", detail: "Bengali voice note", time: "08:15" },
+        { icon: "plan", label: "Planned", detail: "4 tasks · Sunita’s crew · due 5 pm", time: "08:15" },
+        { icon: "cam", label: "Checked", detail: "8 photos · 1 wall needs a 2nd coat", time: "15:40" },
+        { icon: "score", label: "Scored", detail: "Wall putty · 8.4 / 10", time: "15:41" },
+        { icon: "pay", label: "Paid", detail: "₹1,920 across 4 workers", time: "15:42" },
+      ],
     },
     {
-      text: "Who hasn’t sent photos for Flat 4B yet?",
+      site: "Flat 4B, New Town",
+      speaker: "Captain Bikram",
       lang: "English",
-      reply: "**Arif K.** has 2 tasks without proof. I’ve sent him a voice reminder in Hindi.",
+      text: "Who hasn’t sent photos for Flat 4B yet?",
+      reply: "**Arif K.** owes 2 photos. I’ve sent him a voice reminder in Hindi.",
+      steps: [
+        { icon: "ear", label: "Understood", detail: "Question in English", time: "17:05" },
+        { icon: "eye", label: "Searched", detail: "Flat 4B board · 12 tasks today", time: "17:05" },
+        { icon: "cam", label: "Found", detail: "Arif K. · 2 tasks without photos", time: "17:05" },
+        { icon: "send", label: "Reminded", detail: "Voice note to Arif, in Hindi", time: "17:06" },
+      ],
     },
-  ],
-  steps: [
-    { icon: "ear", label: "Listen", detail: "Heard Bikram’s voice note", time: "00:02" },
-    { icon: "plan", label: "Plan", detail: "7 tasks for Raju and Meena", time: "00:04" },
-    { icon: "eye", label: "See", detail: "3 photos checked, tiles level", time: "16:31" },
-    { icon: "score", label: "Score", detail: "Tile work, Flat 4B: 9.2", time: "16:31" },
-    { icon: "pay", label: "Pay", detail: "₹640 added to Raju’s pay", time: "16:32" },
   ],
 } as const;
 
@@ -448,45 +471,37 @@ export const acharyaPage = {
 /* ── Landing revamp: hero chat, journey timeline, numbers ─────────────── */
 
 /**
- * The chat that types itself out on the right of the hero. Each scene is a
- * short real-style exchange with an Acharya (taken from the OmniPulse agent
- * prompts and the Acharya Ji voice clips). The hero cycles through them.
+ * The chat that types itself out on the right of the hero: short exchanges with
+ * an Acharya (from the Acharya app's knowledge, task and app-guide features).
+ * Task commands live in the agent demo below, so they are not repeated here.
  */
 export const heroChat = {
   acharya: "MahAcharya Ji",
   scenes: [
     {
-      topic: "Task planning",
-      lang: "Hinglish",
-      msgs: [
-        { from: "u", text: "Kal tak kitchen aur bathroom ki tiling khatam karni hai. Raju aur Meena lagao." },
-        { from: "a", text: "Done. 7 tasks for Raju and Meena, due tomorrow 6 pm. I’ll score each photo as it comes in." },
-      ],
-    },
-    {
       topic: "Company knowledge",
       lang: "हिन्दी",
       msgs: [
         { from: "u", text: "Acharya Ji, meri kitni chhuttiyan baaki hain?" },
-        { from: "a", text: "Company policy ke anusaar aapke paas 7 casual leave baaki hain. Kya agle Monday ki leave laga doon?" },
+        { from: "a", text: "7 casual leave baaki hain. Agle Monday ki laga doon?" },
         { from: "u", text: "Haan, laga dijiye." },
-        { from: "a", text: "Ho gaya. Request aapke manager ko bhej di hai." },
+        { from: "a", text: "Ho gaya. Request manager ko bhej di." },
       ],
     },
     {
-      topic: "Photo proof",
+      topic: "Today’s work",
+      lang: "Hinglish",
+      msgs: [
+        { from: "u", text: "Aaj mera kya kaam hai?" },
+        { from: "a", text: "3 kaam. Pehle 2 baje client call, phir 5 baje site report." },
+      ],
+    },
+    {
+      topic: "App guide",
       lang: "English",
       msgs: [
-        { from: "u", text: "Who hasn’t sent photos for Flat 4B yet?" },
-        { from: "a", text: "Arif K. has 2 tasks without proof. I’ve sent him a voice reminder in Hindi." },
-      ],
-    },
-    {
-      topic: "Site work",
-      lang: "বাংলা",
-      msgs: [
-        { from: "u", text: "আজ টাওয়ার সি-তে দেয়ালে পুট্টি শেষ করতে হবে।" },
-        { from: "a", text: "Got it. 4 tasks for Sunita’s crew at Tower C, due today 5 pm. Photos will be scored on arrival." },
+        { from: "u", text: "How do I submit my task report?" },
+        { from: "a", text: "Open ‘My tasks’, add a photo, tap Submit. It goes straight to your captain." },
       ],
     },
   ],
