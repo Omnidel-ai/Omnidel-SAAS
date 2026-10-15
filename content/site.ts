@@ -22,47 +22,72 @@ export const brand = {
 export const nav = [
   { label: "Products", href: "/#product" },
   { label: "How it works", href: "/#agent" },
-  { label: "Acharyas", href: "/#acharyas" },
+  { label: "Acharyas", href: "/acharya" },
   { label: "Pricing", href: "/pricing" },
 ];
 
 export const hero = {
-  eyebrow: "OmniPulse · an AI agent for work crews",
+  eyebrow: "OmniPulse · AI agent for work crews",
   title: ["Your crew does the work.", "The agent does", "the rest."],
-  lead: "Say what needs doing, in any language. OmniPulse plans the day, checks the photo proof, scores the work and settles the pay — quietly, in the background.",
+  lead: "Say the task in any language. OmniPulse plans it, checks the photo proof, scores the work and settles pay.",
   primary: { label: "Try the agent →", href: "/pricing" },
-  video: { label: "See a day on site", note: "2 min", href: "#agent" },
-  live: "Live pilot in Kolkata · 30 workers on board",
+  video: { label: "See it work", note: "Live demo below", href: "#agent" },
+  live: "Live in Kolkata · 30 workers",
 };
 
-/** The agent strip under the hero: prompts it types, and the five steps it ticks off. */
+/**
+ * The agent demo under the hero. Each run is one voice command and the trace
+ * of what the agent did with it, step by step. `steps` read like an agent log:
+ * a past-tense verb, then the specifics. Times are when each step happened.
+ */
 export const agent = {
-  site: "Flat 4B, New Town",
-  speaker: "Captain Bikram says",
-  langs: "हिन्दी · বাংলা · English",
-  prompts: [
+  name: "OmniPulse agent",
+  /** Who answers the captain: MahAcharya Ji, as the voice of the agent. */
+  replier: { name: "MahAcharya Ji", photo: "/acharyas/mahacharya-avatar.webp" },
+  you: "You say it",
+  it: "It gets done",
+  runs: [
     {
+      site: "Flat 4B, New Town",
+      speaker: "Captain Bikram",
+      lang: "Hinglish",
       text: "Kal tak kitchen aur bathroom ki tiling khatam karni hai. Raju aur Meena lagao.",
-      lang: "हिन्दी · Hinglish",
-      reply: "Done. **7 tasks** for Raju and Meena, due tomorrow 6 pm. I’ll score each photo as it comes in.",
+      reply: "**7 tasks** set for Raju and Meena, due tomorrow 6 pm.",
+      steps: [
+        { icon: "ear", label: "Understood", detail: "Hinglish voice note", time: "09:02" },
+        { icon: "plan", label: "Planned", detail: "7 tasks · Raju, Meena · due 6 pm", time: "09:02" },
+        { icon: "cam", label: "Checked", detail: "3 photos · tiles level", time: "16:31" },
+        { icon: "score", label: "Scored", detail: "Kitchen tiling · 9.2 / 10", time: "16:31" },
+        { icon: "pay", label: "Paid", detail: "₹640 added to Raju’s pay", time: "16:32" },
+      ],
     },
     {
+      site: "Tower C, New Town",
+      speaker: "Captain Sunita",
+      lang: "বাংলা",
       text: "আজ টাওয়ার সি-তে দেয়ালে পুট্টি শেষ করতে হবে।",
-      lang: "বাংলা · Bengali",
-      reply: "Got it. **4 tasks** for Sunita’s crew at Tower C, due today 5 pm. Photos will be scored on arrival.",
+      reply: "**4 tasks** set for your crew at Tower C, due today 5 pm.",
+      steps: [
+        { icon: "ear", label: "Understood", detail: "Bengali voice note", time: "08:15" },
+        { icon: "plan", label: "Planned", detail: "4 tasks · Sunita’s crew · due 5 pm", time: "08:15" },
+        { icon: "cam", label: "Checked", detail: "8 photos · 1 wall needs a 2nd coat", time: "15:40" },
+        { icon: "score", label: "Scored", detail: "Wall putty · 8.4 / 10", time: "15:41" },
+        { icon: "pay", label: "Paid", detail: "₹1,920 across 4 workers", time: "15:42" },
+      ],
     },
     {
-      text: "Who hasn’t sent photos for Flat 4B yet?",
+      site: "Flat 4B, New Town",
+      speaker: "Captain Bikram",
       lang: "English",
-      reply: "**Arif K.** has 2 tasks without proof. I’ve sent him a voice reminder in Hindi.",
+      text: "Who hasn’t sent photos for Flat 4B yet?",
+      reply: "**Arif K.** owes 2 photos. I’ve sent him a voice reminder in Hindi.",
+      steps: [
+        { icon: "ear", label: "Understood", detail: "Question in English", time: "17:05" },
+        { icon: "eye", label: "Searched", detail: "Flat 4B board · 12 tasks today", time: "17:05" },
+        { icon: "cam", label: "Found", detail: "Arif K. · 2 tasks without photos", time: "17:05" },
+        { icon: "send", label: "Reminded", detail: "Voice note to Arif, in Hindi", time: "17:06" },
+      ],
     },
-  ],
-  steps: [
-    { icon: "ear", label: "Listen", detail: "Heard Bikram’s voice note", time: "00:02" },
-    { icon: "plan", label: "Plan", detail: "7 tasks for Raju and Meena", time: "00:04" },
-    { icon: "eye", label: "See", detail: "3 photos checked, tiles level", time: "16:31" },
-    { icon: "score", label: "Score", detail: "Tile work, Flat 4B: 9.2", time: "16:31" },
-    { icon: "pay", label: "Pay", detail: "₹640 added to Raju’s pay", time: "16:32" },
   ],
 } as const;
 
@@ -104,13 +129,16 @@ export const showcase = [
   {
     key: "review",
     tab: "Scores",
-    url: "app.omnidel.ai/omnipulse/review",
-    image: "/screens/review.webp",
-    caption: ["Work scored fairly, every day.", "An Acharya reviews each photo."],
-    callouts: [
-      { kind: "dark", value: "9.2", text: "Site photo, Newtown block C · scored by an Acharya", style: { top: "54%", right: "-4%" } },
-      { kind: "live", text: "**3** waiting for the captain’s nod", style: { bottom: "-10%", left: "6%" } },
+    url: "OmniPulse · mobile app",
+    image: "/screens/pulse-review.webp",
+    caption: ["Work scored fairly, every day.", "An Acharya reviews each photo, the captain gives the nod."],
+    /** Phone screens from the OmniPulse app (omnipulse-wine.vercel.app). */
+    phones: [
+      { image: "/screens/pulse-review.webp", label: "Review queue" },
+      { image: "/screens/pulse-score.webp", label: "Scored by MahAcharya’ji" },
+      { image: "/screens/pulse-decide.webp", label: "Captain’s nod" },
     ],
+    callouts: [{ kind: "live", text: "**14** waiting for the captain’s nod", style: { bottom: "18%", right: "4%" } }],
   },
   {
     key: "acharyas",
@@ -128,17 +156,15 @@ export const showcase = [
   },
 ] as const;
 
-/** The OmniVarsity roster, as the app lists it. */
-export const acharyas = [
-  { initials: "M", name: "MahAcharya Ji", field: "Founder", color: "#254a33" },
-  { initials: "VA", name: "Vivek", field: "Finance", color: "#254a33" },
-  { initials: "NA", name: "Neeranjan", field: "Farming", color: "#1f6f5c" },
-  { initials: "LA", name: "Lakshman", field: "Sales", color: "#8b3320" },
-  { initials: "GA", name: "Gitanjali", field: "Quality", color: "#a5711a" },
-  { initials: "AA", name: "Ananya", field: "Language", color: "#a74a2d" },
-  { initials: "BA", name: "Bikram", field: "Dispatch", color: "#8b3320" },
-  { initials: "EA", name: "Esha", field: "Support", color: "#7a3b22" },
-  { initials: "SA", name: "Soumyajit", field: "Focus", color: "#1f3d2b" },
+/** The OmniVarsity roster, as the app lists it (dev.omnidel.ai/omnivarsity/acharyas). Photos in public/acharyas/. */
+export const acharyas: { initials: string; name: string; field: string; color: string; photo?: string }[] = [
+  { initials: "M", name: "MahAcharya Ji", field: "Founder", color: "#254a33", photo: "/acharyas/acharya-mahacharya.png" },
+  { initials: "SA", name: "Dr Swapan", field: "Health", color: "#7a3b22", photo: "/acharyas/acharya-swapan.webp" },
+  { initials: "NA", name: "Neeranjan", field: "Farming", color: "#1f6f5c", photo: "/acharyas/acharya-neeranjan.webp" },
+  { initials: "SA", name: "Subhas", field: "Business", color: "#8b3320", photo: "/acharyas/acharya-subhas.webp" },
+  { initials: "VA", name: "Vivek", field: "Finance", color: "#254a33", photo: "/acharyas/acharya-vivek.webp" },
+  { initials: "LA", name: "Lakshman", field: "Sales", color: "#a5711a", photo: "/acharyas/acharya-lakshman.webp" },
+  { initials: "SA", name: "Soumyajit", field: "Focus", color: "#a74a2d", photo: "/acharyas/acharya-soumyajit.webp" },
 ];
 
 /** MahAcharya Ji's guide chat. Scripted until wired to the app's MahAcharya assistant. */
@@ -269,3 +295,241 @@ export const footer = [
 ];
 
 export const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
+
+/* ── /acharya page ─────────────────────────────────────────────────────── */
+
+/**
+ * The Acharya page (/acharya). Hero, "Listen to Acharya Ji" voice clips, what an
+ * Acharya can do, app screens and the other Acharyas.
+ *
+ * Portrait: MahAcharya Ji's photo from the OmniVarsity app. Set `portrait` to
+ * null to fall back to the "M" monogram; swap in a transparent cut-out later.
+ */
+export const acharyaPage = {
+  hello: "Hello,",
+  name: "I’m Acharya Ji",
+  role: "Your 24/7 AI Acharya",
+  lead: "A mentor who knows your company, speaks your crew’s language, and is awake whenever the work is.",
+  portrait: "/acharyas/acharya-mahacharya.png" as string | null,
+  /** Full-length cut-out (transparent PNG) shown and animated in the hero. */
+  figure: "/acharyas/mahacharya-full.png",
+  /**
+   * MahAcharya Ji introducing himself, in his own words (from his persona in
+   * OmniVarsity), spoken in his OmniVarsity voice (Gemini Live "Charon").
+   * `cues` are the start times (seconds) of each line, for the captions.
+   * Set `src` to null to show captions only.
+   */
+  intro: {
+    src: "/audio/mahacharya-intro.mp3" as string | null,
+    /**
+     * Lip-synced video of the same intro (MoDA talking-head, made from the
+     * full-length image's head and shoulders). It is laid over the figure in
+     * the hero while he speaks, and carries the sound. null = audio only.
+     */
+    video: "/acharyas/mahacharya-talking.mp4" as string | null,
+    cues: [0.15, 4.84, 10.63, 14.74, 22.16, 26.5],
+    lines: [
+      "Namaste. I am MahAcharya Ji,",
+      "the founding Acharya of KarmYog for the 21st Century.",
+      "Every Acharya here teaches in my line.",
+      "My work is simple: to remove the friction between your intention and your next useful action.",
+      "Speak to me in Hindi, Bengali or English.",
+      "I will meet you where you are, and give you one clear next step at a time.",
+    ],
+  },
+  cta: { label: "Book a demo", href: "mailto:ram.badrinathan@jvl.run?subject=Acharya%20demo" },
+
+  listen: {
+    title: ["Listen to", "Acharya Ji"],
+    lead: "Real conversations, in the voice your crew hears.",
+    clips: [
+      {
+        title: "Leave Policy Query",
+        note: "A Karyakarta asks about leave in Hindi. Acharya Ji checks the company policy and files the request.",
+        lang: "हिन्दी · Hindi",
+        src: "/audio/acharya-leave-query.mp3",
+        duration: 22,
+        peaks: [0.69, 0.67, 0.33, 0.67, 0.7, 0.17, 0.69, 0.36, 0.23, 0.27, 0.77, 0.33, 0.08, 0.08, 0.37, 0.8, 0.47, 0.35, 0.57, 0.38, 0.59, 0.5, 0.08, 0.68, 0.53, 0.69, 0.26, 0.49, 0.57, 0.51, 0.42, 0.74, 0.31, 0.11, 0.08, 0.73, 0.78, 0.63, 0.68, 0.78, 0.14, 0.68, 0.7, 0.13, 0.65, 0.51, 0.76, 0.17, 0.22, 1.0, 0.49, 0.24, 0.4, 0.59, 0.08, 0.08, 0.64, 0.56, 0.52, 0.67, 0.51, 0.54, 0.48, 0.08],
+      },
+      {
+        title: "Daily Task Planning",
+        note: "A Karyakarta asks what’s on today. Acharya Ji puts the most urgent task first and opens it.",
+        lang: "English",
+        src: "/audio/acharya-daily-tasks.mp3",
+        duration: 23,
+        peaks: [0.79, 0.55, 0.19, 0.08, 0.92, 0.58, 0.08, 0.19, 0.88, 0.98, 0.43, 0.09, 0.08, 0.81, 0.65, 0.08, 0.69, 0.35, 0.08, 0.08, 0.43, 0.92, 0.95, 0.77, 0.52, 0.98, 0.9, 0.93, 0.28, 0.08, 0.71, 0.89, 0.51, 0.08, 1.0, 0.85, 0.75, 0.94, 0.86, 0.18, 0.08, 0.92, 0.78, 0.13, 0.77, 0.76, 0.4, 0.08, 0.53, 0.96, 0.49, 0.08, 0.5, 0.53, 0.08, 0.08, 0.71, 0.49, 0.73, 0.55, 0.63, 0.68, 0.35, 0.09],
+      },
+    ],
+  },
+
+  capabilities: {
+    eyebrow: "What Acharya Ji can do",
+    title: "One mentor, many kinds of help",
+    items: [
+      {
+        key: "knowledge",
+        nav: "Company knowledge",
+        title: ["Knows your", "company"],
+        lead: "Upload your policies, SOPs and FAQs once. Acharya Ji answers from them, not from guesswork.",
+        mock: {
+          head: "Knowledge base · 42 documents",
+          meta: "synced 2 min ago",
+          rows: [
+            { tag: "POLICY", text: "Leave policy 2026", status: "Learned", tone: "ok" },
+            { tag: "SOP", text: "Tile work quality checklist", status: "Learned", tone: "ok" },
+            { tag: "FAQ", text: "Pay and advance questions", status: "Learned", tone: "ok" },
+            { tag: "UPLOAD", text: "Safety rules, Tower C.pdf", status: "Reading", tone: "amber" },
+          ],
+        },
+      },
+      {
+        key: "references",
+        nav: "References",
+        title: ["Shows where the", "answer came from"],
+        lead: "Every answer points back to the page it came from, so a captain can check it in one tap.",
+        mock: {
+          head: "“How many casual leaves do I get?”",
+          meta: "answered in 1.2 s",
+          rows: [
+            { tag: "ANSWER", text: "12 per year · you have 7 left", status: "", tone: "" },
+            { tag: "SOURCE", text: "Leave policy 2026 · section 3.1", status: "Open", tone: "blue" },
+            { tag: "SOURCE", text: "Your leave record · Sept", status: "Open", tone: "blue" },
+          ],
+        },
+      },
+      {
+        key: "tasks",
+        nav: "Everyday tasks",
+        title: ["Helps with the", "day’s work"],
+        lead: "What’s due, what’s next, what’s blocked. Acharya Ji sorts the day and nudges at the right time.",
+        mock: {
+          head: "Today · Raju K.",
+          meta: "3 tasks",
+          rows: [
+            { tag: "2 PM", text: "Client follow-up call", status: "Due soon", tone: "amber" },
+            { tag: "5 PM", text: "Weekly site report", status: "Planned", tone: "blue" },
+            { tag: "DONE", text: "Kitchen wall tiling · photo scored 9.2", status: "Done", tone: "ok" },
+          ],
+        },
+      },
+      {
+        key: "navigate",
+        nav: "App guide",
+        title: ["Finds the way", "around the app"],
+        lead: "“Where do I upload my photo?” Acharya Ji explains the steps and opens the right screen.",
+        mock: {
+          head: "“How do I submit my task report?”",
+          meta: "3 steps",
+          rows: [
+            { tag: "1", text: "Open ‘My tasks’", status: "Opened", tone: "ok" },
+            { tag: "2", text: "Pick the finished task, add a photo or note", status: "", tone: "" },
+            { tag: "3", text: "Tap ‘Submit’. It goes straight to your captain.", status: "", tone: "" },
+          ],
+        },
+      },
+      {
+        key: "personal",
+        nav: "Personalization",
+        title: ["Shaped to your", "company"],
+        lead: "Your names, your sites, your rules. Each crew member gets answers that fit their role and history.",
+        mock: {
+          head: "Profile · Meena S.",
+          meta: "Tiling crew · Flat 4B",
+          rows: [
+            { tag: "ROLE", text: "Tiler · 3 years", status: "", tone: "" },
+            { tag: "PREFERS", text: "Voice replies in Hindi", status: "On", tone: "ok" },
+            { tag: "TEACHING", text: "Grout spacing, one tip a day", status: "Day 4", tone: "blue" },
+          ],
+        },
+      },
+      {
+        key: "languages",
+        nav: "Indian languages",
+        title: ["Speaks your", "crew’s language"],
+        lead: "Voice and text in the languages India works in. Ask in one, get the answer in the same one.",
+        langs: ["हिन्दी", "বাংলা", "मराठी", "தமிழ்", "తెలుగు", "ಕನ್ನಡ", "മലയാളം", "ગુજરાતી", "ਪੰਜਾਬੀ", "اردو", "English"],
+      },
+    ],
+  },
+
+  screens: {
+    eyebrow: "Inside the Acharya app",
+    title: "Everything runs through an Acharya",
+    lead: "Tasks, chat and scores all live with the mentor your crew already talks to.",
+    phones: [
+      { image: "/screens/acharya-list.webp", label: "Pick your Acharya" },
+      { image: "/screens/acharya-chat.webp", label: "Talk to MahAcharya Ji" },
+      { image: "/screens/acharya-tasks.webp", label: "Tasks with an Acharya" },
+    ],
+  },
+
+  others: {
+    eyebrow: "Meet other Acharyas",
+    title: "A mentor for every kind of work",
+    lead: "Hover to say hello.",
+  },
+};
+
+/* ── Landing revamp: hero chat, journey timeline, numbers ─────────────── */
+
+/**
+ * The chat that types itself out on the right of the hero: short exchanges with
+ * an Acharya (from the Acharya app's knowledge, task and app-guide features).
+ * Task commands live in the agent demo below, so they are not repeated here.
+ */
+export const heroChat = {
+  acharya: "MahAcharya Ji",
+  scenes: [
+    {
+      topic: "Company knowledge",
+      lang: "हिन्दी",
+      msgs: [
+        { from: "u", text: "Acharya Ji, meri kitni chhuttiyan baaki hain?" },
+        { from: "a", text: "7 casual leave baaki hain. Agle Monday ki laga doon?" },
+        { from: "u", text: "Haan, laga dijiye." },
+        { from: "a", text: "Ho gaya. Request manager ko bhej di." },
+      ],
+    },
+    {
+      topic: "Today’s work",
+      lang: "Hinglish",
+      msgs: [
+        { from: "u", text: "Aaj mera kya kaam hai?" },
+        { from: "a", text: "3 kaam. Pehle 2 baje client call, phir 5 baje site report." },
+      ],
+    },
+    {
+      topic: "App guide",
+      lang: "English",
+      msgs: [
+        { from: "u", text: "How do I submit my task report?" },
+        { from: "a", text: "Open ‘My tasks’, add a photo, tap Submit. It goes straight to your captain." },
+      ],
+    },
+  ],
+} as const;
+
+/** "From sign-up to a working crew": the onboarding steps, in order. */
+export const journey = {
+  eyebrow: "Getting started",
+  title: ["From sign-up to", "a working crew"],
+  lead: "Five steps, and most teams are done in a week.",
+  steps: [
+    { label: "Step 1", title: "Sign up", text: "Create your OmniDEL ID with your mobile number and pick a plan for your team." },
+    { label: "Step 2", title: "Upload knowledge", text: "Share your policies, SOPs and FAQs so your Acharyas learn how your company works." },
+    { label: "Step 3", title: "Sync your system", text: "Add your crew and sites. Acharyas keep their knowledge up to date as things change." },
+    { label: "Step 4", title: "Assign tasks", text: "Say a task out loud, in any language. It lands on the board with an owner and a deadline." },
+    { label: "Step 5", title: "Crew gets to work", text: "Karyakartas use the Acharya app to do the day’s tasks, send photo proof and learn as they go." },
+  ],
+};
+
+/** Numbers we can stand behind today. Add more as pilots report results. */
+export const numbers = {
+  title: ["Built for the way", "India works"],
+  items: [
+    { pre: "", value: 30, suffix: "", label: "Workers onboarded in our live Kolkata pilot" },
+    { pre: "", value: 7, suffix: "", label: "AI Acharyas, each a mentor in its own field", featured: true },
+    { pre: "", value: 24, suffix: "/7", label: "An Acharya is awake whenever the work is" },
+  ],
+  note: "Pilot figures as of October 2026.",
+};

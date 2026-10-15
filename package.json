@@ -17,6 +17,7 @@
     "@fontsource/hind": "^5.3.0",
     "@fontsource/inter-tight": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
+    "motion": "^13.4.6",
     "next": "^15.5.26",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
