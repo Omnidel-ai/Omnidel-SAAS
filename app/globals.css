@@ -881,8 +881,10 @@ img { max-width: 100%; }
 .od-run__text:lang(bn) { font-family: var(--font-indic); }
 .od-run__lang { margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--rule); font: 11px/16px var(--font-mono); color: var(--green); }
 .od-run__caret { display: inline-block; width: 2px; height: 19px; margin-left: 2px; vertical-align: -3px; background: var(--terracotta); animation: od-blink 1s steps(1) infinite; }
-.od-run__reply { display: flex; gap: 10px; align-items: flex-start; min-height: 66px; }
-.od-run__reply .od-brand__badge { width: 30px; height: 30px; font-size: 12px; flex: none; margin-top: 2px; }
+.od-run__reply { display: flex; gap: 10px; align-items: flex-start; min-height: 86px; }
+.od-run__av { flex: none; width: 36px; height: 36px; border-radius: 50%; object-fit: cover; margin-top: 18px; box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ochre-wash); }
+.od-run__said { display: grid; gap: 4px; min-width: 0; }
+.od-run__by { font: 500 12px/16px var(--font-sans); color: var(--green-deep); }
 .od-run__reply p { margin: 0; background: color-mix(in srgb, var(--green-wash) 55%, var(--paper)); border: 1px solid color-mix(in srgb, var(--green-soft) 70%, transparent); border-radius: 16px 16px 16px 4px; padding: 11px 14px; font-size: 14px; line-height: 21px; color: var(--ink); }
 .od-run__reply b { color: var(--green-deep); font-weight: 600; }
 .od-run__log { display: flex; flex-direction: column; gap: 12px; padding: 22px 26px 18px; }

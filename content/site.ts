@@ -42,6 +42,8 @@ export const hero = {
  */
 export const agent = {
   name: "OmniPulse agent",
+  /** Who answers the captain: MahAcharya Ji, as the voice of the agent. */
+  replier: { name: "MahAcharya Ji", photo: "/acharyas/mahacharya-avatar.webp" },
   you: "You say it",
   it: "It gets done",
   runs: [

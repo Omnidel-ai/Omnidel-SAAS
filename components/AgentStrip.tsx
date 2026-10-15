@@ -134,10 +134,14 @@ export function AgentStrip() {
                 exit={{ opacity: 0, transition: { duration: 0.15 } }}
                 transition={{ type: "spring", duration: 0.45, bounce: 0 }}
               >
-                <span className="od-brand__badge" aria-hidden="true">O</span>
-                <p>
-                  <Rich text={run.reply} />
-                </p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="od-run__av" src={agent.replier.photo} alt="" width={36} height={36} />
+                <div className="od-run__said">
+                  <span className="od-run__by">{agent.replier.name}</span>
+                  <p>
+                    <Rich text={run.reply} />
+                  </p>
+                </div>
               </motion.div>
             ) : (
               <div className="od-run__reply od-run__reply--ghost" aria-hidden="true" />
