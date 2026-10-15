@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { beforeAfter, brand, closing, faq, hero, trust } from "@/content/site";
+import { beforeAfter, brand, closing, faq, hero } from "@/content/site";
 import { Nav } from "./Chrome";
 import { Icon } from "./Icon";
 import { scene } from "@/lib/scenes";
@@ -53,24 +53,7 @@ export function Hero() {
   );
 }
 
-export function Trust() {
-  return (
-    <div className="od-wrap od-trust">
-      <span className="od-eyebrow">{trust.title}</span>
-      <Stagger className="od-trust__row">
-        {trust.items.map((t) => (
-          <StaggerItem key={t.name} className={t.name.startsWith("Live") ? "od-trust__item od-trust__item--live" : "od-trust__item"}>
-            <strong>
-              {t.name.startsWith("Live") && <span className="od-live" aria-hidden="true" />}
-              {t.name}
-            </strong>
-            <small>{t.note}</small>
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </div>
-  );
-}
+export { Trust } from "./Trust";
 
 export function BeforeAfter() {
   const b = beforeAfter;
