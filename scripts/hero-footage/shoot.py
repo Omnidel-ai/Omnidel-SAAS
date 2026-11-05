@@ -9,8 +9,8 @@ Both run on demo data in the browser: no login, nothing is written anywhere.
     python shoot.py desk_review phone  # only these
     python shoot.py --out D:/tmp/takes # somewhere else (default: ./takes)
 
-Each take is saved as <name>.mp4, a high-quality master that build_hero.py and
-build_tour.py cut from. The steps below click on demo-data text (task names,
+Each take is saved as <name>.mp4, a high-quality master that build_tour.py
+cuts from. The steps below click on demo-data text (task names,
 tabs), so if the demo data changes, update the matching strings here.
 """
 import argparse

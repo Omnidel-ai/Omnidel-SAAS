@@ -17,6 +17,8 @@ const P: Record<string, string> = {
   rocket: '<path d="M14 4c3-1 6 0 6 0s1 3 0 6l-6 6-6-6 6-6z"/><circle cx="15" cy="9" r="1.5"/><path d="M8 10l-3 1-1 3 3-1M14 16l-1 3-3 1 1-3"/>',
   send: '<path d="M4 12l16-8-6 16-2.5-6.5z"/>',
   play: '<path d="M8 5.5l11 6.5-11 6.5z" fill="currentColor"/>',
+  pause: '<rect x="6.5" y="5.5" width="3.6" height="13" rx="1" fill="currentColor" stroke="none"/><rect x="13.9" y="5.5" width="3.6" height="13" rx="1" fill="currentColor" stroke="none"/>',
+  replay: '<path d="M4 12a8 8 0 1 0 8-8 8.7 8.7 0 0 0-6 2.44L4 8.4"/><path d="M4 4v4.4h4.4"/>',
 };
 
 export type IconName = keyof typeof P;

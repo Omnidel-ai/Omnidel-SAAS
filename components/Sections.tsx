@@ -4,32 +4,28 @@ import { Nav } from "./Chrome";
 import { Icon } from "./Icon";
 import { scene } from "@/lib/scenes";
 import { HeroFade, Parallax, Reveal, Stagger, StaggerItem } from "./Motion";
-import { HeroStage } from "./HeroStage";
+import { HeroWorld } from "./HeroWorld";
 
 export function Hero() {
   return (
-    <section className="od-hero od-h4">
-      <div className="od-h4__bg" aria-hidden="true">
-        <span className="od-h4__glow" />
-        <span className="od-h4__floor">
-          <i />
-        </span>
-      </div>
+    <section className="od-hero od-h5">
+      <span className="od-h5__glow" aria-hidden="true" />
       <Nav />
-      <div className="od-wrap od-h4__inner">
-        <HeroFade className="od-h4__copy">
-          <a className="od-h4__badge" href={hero.video.href}>
+      <div className="od-wrap od-h5__inner">
+        <HeroFade className="od-h5__copy">
+          <a className="od-h5__badge" href={hero.video.href}>
             <span className="od-live" />
             {hero.live}
-            <span className="od-h4__badge-cta">{hero.video.label} →</span>
+            <span className="od-h5__badge-cta">{hero.video.label} →</span>
           </a>
           <h1 className="od-display-xl">
-            {hero.title[0]}
-            <br />
-            {hero.title[1]} <em>{hero.title[2]}</em>
+            <span className="od-h5__line">{hero.title[0]}</span>{" "}
+            <span className="od-h5__line">
+              {hero.title[1]} <em>{hero.title[2]}</em>
+            </span>
           </h1>
           <p className="od-lead">{hero.lead}</p>
-          <div className="od-h4__ctas">
+          <div className="od-h5__ctas">
             <Link className="od-btn od-btn--ink" href={hero.primary.href}>
               {hero.primary.label}
             </Link>
@@ -39,7 +35,7 @@ export function Hero() {
             </a>
           </div>
         </HeroFade>
-        <HeroStage />
+        <HeroWorld />
       </div>
     </section>
   );
