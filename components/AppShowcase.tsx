@@ -1,63 +1,144 @@
 "use client";
 
-import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { showcase } from "@/content/site";
-import { Rich } from "./Icon";
-import { ScrollZoom } from "./Motion";
+import { enterSpring } from "./Motion";
 
-/** Real OmniDEL app screens, one per tab, in a browser frame with a couple of callouts. */
+/**
+ * "See it in the app": a short product tour. Each feature is a real screen
+ * recording. The active tab's bar fills while its clip plays, then the tour
+ * moves to the next feature; it only plays while it is on screen. With reduced
+ * motion nothing plays by itself and each clip gets the browser's controls.
+ */
 export function AppShowcase() {
-  const [key, setKey] = useState<string>(showcase[0].key);
-  const panel = showcase.find((s) => s.key === key) ?? showcase[0];
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+  const [onScreen, setOnScreen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const video = useRef<HTMLVideoElement>(null);
+  const bars = useRef<(HTMLElement | null)[]>([]);
+  const item = showcase[i];
+
+  const go = (k: number) => setI((k + showcase.length) % showcase.length);
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting), { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Set after mount (not as attributes) so the server HTML never disagrees with a reduced-motion visitor.
+  useEffect(() => {
+    const v = video.current;
+    if (!v) return;
+    v.controls = Boolean(reduce);
+    if (onScreen && !reduce) v.play().catch(() => {});
+    else v.pause();
+  }, [onScreen, reduce, i]);
+
+  // The active tab's bar follows the clip frame by frame (set directly, no re-render).
+  useEffect(() => {
+    bars.current.forEach((b, k) => {
+      if (b && k !== i) b.style.transform = "scaleX(0)";
+    });
+    let raf = 0;
+    const tick = () => {
+      const v = video.current;
+      const b = bars.current[i];
+      if (v && b && v.duration) b.style.transform = `scaleX(${Math.min(1, v.currentTime / v.duration)})`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [i]);
+
+  function onKey(e: KeyboardEvent<HTMLDivElement>) {
+    const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
+    if (!d) return;
+    e.preventDefault();
+    const k = (i + d + showcase.length) % showcase.length;
+    go(k);
+    document.getElementById(`od-tour-tab-${showcase[k].key}`)?.focus();
+  }
+
+  const clip = (
+    <video
+      ref={video}
+      className="od-tour__video"
+      muted
+      playsInline
+      preload="auto"
+      poster={`${item.clip}.jpg`}
+      onEnded={() => {
+        if (!reduce) go(i + 1);
+      }}
+      aria-label={`Screen recording: ${item.title}`}
+    >
+      <source src={`${item.clip}.mp4`} type="video/mp4" />
+      <source src={`${item.clip}.webm`} type="video/webm" />
+    </video>
+  );
+
   return (
-    <div className="od-show">
-      <div className="od-show__tabs" role="tablist" aria-label="App screens">
-        {showcase.map((s) => (
-          <button key={s.key} type="button" role="tab" aria-selected={s.key === key} onClick={() => setKey(s.key)}>
-            {s.tab}
+    <div className="od-tour" ref={root}>
+      <div className="od-tour__list" role="tablist" aria-label="What the app does" aria-orientation="vertical" onKeyDown={onKey}>
+        {showcase.map((s, k) => (
+          <button
+            key={s.key}
+            id={`od-tour-tab-${s.key}`}
+            type="button"
+            role="tab"
+            aria-selected={k === i}
+            aria-controls="od-tour-panel"
+            tabIndex={k === i ? 0 : -1}
+            className="od-tour__tab"
+            onClick={() => go(k)}
+          >
+            <span className="od-tour__num">{String(k + 1).padStart(2, "0")}</span>
+            <span className="od-tour__title">{s.title}</span>
+            <span className="od-tour__more">
+              <span>
+                <span className="od-tour__text">{s.text}</span>
+              </span>
+            </span>
+            <span className="od-tour__progress" aria-hidden="true">
+              <i
+                ref={(el) => {
+                  bars.current[k] = el;
+                }}
+              />
+            </span>
           </button>
         ))}
       </div>
-      <p className="od-show__caption">
-        <b>{panel.caption[0]}</b> {panel.caption[1]}
-      </p>
-      <ScrollZoom className="od-show__stage">
-        <div className="od-show__panel" role="tabpanel" key={panel.key}>
-          {"phones" in panel ? (
-            <div className="od-phones">
-              {panel.phones.map((ph) => (
-                <figure className="od-phone" key={ph.image}>
-                  <div className="od-phone__body">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={ph.image} alt={`${panel.key === "acharyas" ? "Acharya app" : "OmniPulse app"}: ${ph.label}`} width={804} height={1740} loading="lazy" />
-                  </div>
-                  <figcaption>{ph.label}</figcaption>
-                </figure>
-              ))}
+
+      <div className="od-tour__stage" id="od-tour-panel" role="tabpanel" aria-labelledby={`od-tour-tab-${item.key}`}>
+        <motion.div
+          key={item.key}
+          className={`od-tour__shot od-tour__shot--${item.kind}`}
+          initial={{ opacity: 0, transform: reduce ? "none" : "translateY(10px) scale(0.985)" }}
+          animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
+          transition={reduce ? { duration: 0.2 } : enterSpring}
+        >
+          {item.kind === "desk" ? (
+            <div className="od-tour__frame">
+              <div className="od-tour__chrome">
+                <i />
+                <i />
+                <i />
+                <span className="od-tour__url">{item.url}</span>
+              </div>
+              {clip}
             </div>
           ) : (
-          <div className="od-frame">
-            <div className="od-frame__bar">
-              <i />
-              <i />
-              <i />
-              <span className="od-frame__url">{panel.url}</span>
-            </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={panel.image} alt={`OmniDEL app: ${panel.tab}`} width={1920} height={1200} />
-          </div>
+            <div className="od-tour__phone">{clip}</div>
           )}
-          {panel.callouts.map((c, i) => (
-            <span key={i} className={(c.kind as string) === "dark" ? "od-callout od-callout--dark" : "od-callout"} style={c.style}>
-              {"value" in c ? <span className="od-callout__num">{c.value}</span> : <span className="od-live" />}
-              <span>
-                <Rich text={c.text} />
-              </span>
-            </span>
-          ))}
-        </div>
-      </ScrollZoom>
-      <span className="od-shotnote">Real OmniDEL app screens · demo data</span>
+        </motion.div>
+        <span className="od-tour__note">Recorded in the OmniDEL apps · demo data</span>
+      </div>
     </div>
   );
 }

@@ -25,7 +25,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
         <h2 className="od-display">
           {pricingCopy.title[0]}
           <em>{pricingCopy.title[1]}</em>
-          {pricingCopy.title[2]}
+          <span className="od-nowrap">{pricingCopy.title[2]}</span>
         </h2>
         <p className="od-lead">{pricingCopy.lead}</p>
       </Reveal>

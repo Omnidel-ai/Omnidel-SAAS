@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { brand, footer, nav } from "@/content/site";
 import { Reveal } from "./Motion";
+import { NavMenu } from "./NavMenu";
 import { StickyHeader } from "./StickyHeader";
 
 export function Brand() {
@@ -11,6 +12,8 @@ export function Brand() {
     </Link>
   );
 }
+
+const DEMO = "mailto:ram.badrinathan@jvl.run?subject=OmniPulse%20demo";
 
 export function Nav({ current }: { current?: string }) {
   return (
@@ -28,9 +31,10 @@ export function Nav({ current }: { current?: string }) {
           <Link className="od-btn od-btn--ink od-btn--sm" href="/login">
             Log in
           </Link>
-          <a className="od-btn od-btn--secondary od-btn--sm" href="mailto:ram.badrinathan@jvl.run?subject=OmniPulse%20demo">
+          <a className="od-btn od-btn--secondary od-btn--sm" href={DEMO}>
             Book a demo
           </a>
+          <NavMenu links={nav} demo={DEMO} />
         </div>
       </div>
     </StickyHeader>

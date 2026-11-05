@@ -102,57 +102,47 @@ export const trust = {
   ],
 };
 
-/** Real OmniDEL app screens (captured from Omnidel_Frontend with demo data). */
+/**
+ * The product tour under "See it in the app": one short clip per feature,
+ * screen-recorded in the OmniDEL demo apps (Omnidel_Frontend, demo data) and
+ * kept in public/tour/. Each plays once, then the tour moves to the next.
+ */
 export const showcase = [
   {
-    key: "home",
+    key: "day",
     tab: "Your day",
+    title: "Your day at a glance",
+    text: "What’s planned, what’s moving and what’s done, for your own work and the work you hand out.",
+    kind: "desk",
     url: "app.omnidel.ai/home",
-    image: "/screens/home.webp",
-    caption: ["Your day at a glance.", "What’s planned, what’s moving, what’s done."],
-    callouts: [
-      { kind: "num", value: "37", text: "tasks this week, sorted for you", style: { top: "30%", left: "-4%" } },
-      { kind: "live", text: "**Kolkata crew** · 12 done today", style: { bottom: "14%", right: "-4%" } },
-    ],
+    clip: "/tour/day",
   },
   {
     key: "board",
     tab: "The board",
-    url: "app.omnidel.ai/omnipulse/flat-4b",
-    image: "/screens/board.webp",
-    caption: ["Every job on one board.", "Workers update it by voice and photo."],
-    callouts: [
-      { kind: "live", text: "**Tile the kitchen wall** moved to In progress", style: { top: "36%", right: "-5%" } },
-      { kind: "num", value: "30", text: "tasks · 4 stages · 1 captain", style: { bottom: "12%", left: "-4%" } },
-    ],
+    title: "One board for the whole crew",
+    text: "Every task is a card with an owner, a deadline and its proof. Open one to see all of it.",
+    kind: "desk",
+    url: "app.omnidel.ai/pulse/board",
+    clip: "/tour/board",
   },
   {
-    key: "review",
+    key: "scores",
     tab: "Scores",
-    url: "OmniPulse · mobile app",
-    image: "/screens/pulse-review.webp",
-    caption: ["Work scored fairly, every day.", "An Acharya reviews each photo, the captain gives the nod."],
-    /** Phone screens from the OmniPulse app (omnipulse-wine.vercel.app). */
-    phones: [
-      { image: "/screens/pulse-review.webp", label: "Review queue" },
-      { image: "/screens/pulse-score.webp", label: "Scored by MahAcharya’ji" },
-      { image: "/screens/pulse-decide.webp", label: "Captain’s nod" },
-    ],
-    callouts: [{ kind: "live", text: "**14** waiting for the captain’s nod", style: { bottom: "18%", right: "4%" } }],
+    title: "The Acharya scores, the captain decides",
+    text: "Photo proof arrives already scored. Take the Acharya’s score or enter your own, then approve it or send it back.",
+    kind: "desk",
+    url: "app.omnidel.ai/pulse/review",
+    clip: "/tour/scores",
   },
   {
     key: "acharyas",
     tab: "Acharyas",
-    url: "macharya.ai · Acharya app",
-    image: "/screens/acharya-list.webp",
-    caption: ["An Acharya in every pocket.", "Workers pick their mentor, chat by voice, and follow their tasks."],
-    /** Phone screens from the Acharya app (dev.macharya.ai). */
-    phones: [
-      { image: "/screens/acharya-list.webp", label: "Your Acharyas" },
-      { image: "/screens/acharya-chat.webp", label: "Talk to MahAcharya’ji" },
-      { image: "/screens/acharya-tasks.webp", label: "Tasks with Neeranjan Acharya" },
-    ],
-    callouts: [{ kind: "live", text: "**Voice first** · hold the mic to talk", style: { bottom: "18%", right: "4%" } }],
+    title: "A mentor in every worker’s pocket",
+    text: "Karigars learn each task from their Acharya, ask questions in their own language and test themselves with a short quiz.",
+    kind: "phone",
+    url: "",
+    clip: "/tour/acharya",
   },
 ] as const;
 
@@ -470,43 +460,47 @@ export const acharyaPage = {
   },
 };
 
-/* ── Landing revamp: hero chat, journey timeline, numbers ─────────────── */
+/* ── Landing: hero stage, journey timeline, numbers ───────────────────── */
 
 /**
- * The chat that types itself out on the right of the hero: short exchanges with
- * an Acharya (from the Acharya app's knowledge, task and app-guide features).
- * Task commands live in the agent demo below, so they are not repeated here.
+ * The hero's 3D stage. Both screens are screen recordings of the OmniDEL apps
+ * (OmniPulse on the web, the Acharya app on a phone; demo data), cut into short
+ * loops in public/hero/. `segments` are the parts of the desktop reel, in
+ * seconds: while each plays, the browser bar names it and one toast floats in
+ * front with the result, so the loop reads proof → score → pay.
  */
-export const heroChat = {
-  acharya: "MahAcharya Ji",
-  scenes: [
-    {
-      topic: "Company knowledge",
-      lang: "हिन्दी",
-      msgs: [
-        { from: "u", text: "Acharya Ji, meri kitni chhuttiyan baaki hain?" },
-        { from: "a", text: "7 casual leave baaki hain. Agle Monday ki laga doon?" },
-        { from: "u", text: "Haan, laga dijiye." },
-        { from: "a", text: "Ho gaya. Request manager ko bhej di." },
-      ],
-    },
-    {
-      topic: "Today’s work",
-      lang: "Hinglish",
-      msgs: [
-        { from: "u", text: "Aaj mera kya kaam hai?" },
-        { from: "a", text: "3 kaam. Pehle 2 baje client call, phir 5 baje site report." },
-      ],
-    },
-    {
-      topic: "App guide",
-      lang: "English",
-      msgs: [
-        { from: "u", text: "How do I submit my task report?" },
-        { from: "a", text: "Open ‘My tasks’, add a photo, tap Submit. It goes straight to your captain." },
-      ],
-    },
-  ],
+export const heroStage = {
+  desk: {
+    src: "/hero/pulse",
+    poster: "/hero/pulse.jpg",
+    label: "Screen recording of the OmniPulse web app",
+    segments: [
+      {
+        at: 0,
+        path: "pulse/board",
+        label: "The crew’s board, live",
+        toast: { icon: "✓", tone: "green", title: "Photo proof checked", text: "3 photos · Newtown block C" },
+      },
+      {
+        at: 5.25,
+        path: "pulse/review",
+        label: "Approve the Acharya’s score",
+        toast: { icon: "9.2", tone: "ochre", title: "Scored 9.2 / 10 by the Acharya", text: "Approved by the captain" },
+      },
+      {
+        at: 12.75,
+        path: "home",
+        label: "Your day at a glance",
+        toast: { icon: "₹", tone: "terra", title: "₹640 added to Rahul’s pay", text: "Settled 4:32 pm" },
+      },
+    ],
+  },
+  phone: {
+    src: "/hero/acharya",
+    poster: "/hero/acharya.jpg",
+    label: "Screen recording of the Acharya app",
+  },
+  note: "Recorded in the OmniDEL apps · demo data",
 } as const;
 
 /** "From sign-up to a working crew": the onboarding steps, in order. */

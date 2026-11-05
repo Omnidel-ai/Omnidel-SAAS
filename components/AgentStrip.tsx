@@ -86,7 +86,7 @@ export function AgentStrip() {
   const showReply = phase === "done" || step >= 2;
 
   return (
-    <section ref={ref} className="od-wrap od-run" id="agent" aria-label="See the agent work">
+    <section ref={ref} className="od-wrap od-run" aria-label="See the agent work">
       <header className="od-run__bar">
         <span className="od-run__id">
           <span className="od-brand__badge" aria-hidden="true">O</span>

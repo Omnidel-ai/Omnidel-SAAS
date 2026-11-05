@@ -4,50 +4,42 @@ import { Nav } from "./Chrome";
 import { Icon } from "./Icon";
 import { scene } from "@/lib/scenes";
 import { HeroFade, Parallax, Reveal, Stagger, StaggerItem } from "./Motion";
-import { HeroChat } from "./Landing";
+import { HeroStage } from "./HeroStage";
 
 export function Hero() {
-  const bg = scene("hero");
   return (
-    <section className="od-hero od-hero--calm">
-      <div className={`od-scene-wrap${bg.photo ? " od-scene-wrap--photo" : ""}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <Parallax style={{ position: "absolute", inset: 0 }} speed={0.35}>
-          <img className="od-scene" src={bg.src} alt="" style={{ objectPosition: bg.photo ? "70% center" : "center" }} />
-        </Parallax>
+    <section className="od-hero od-h4">
+      <div className="od-h4__bg" aria-hidden="true">
+        <span className="od-h4__glow" />
+        <span className="od-h4__floor">
+          <i />
+        </span>
       </div>
       <Nav />
-      <div className="od-wrap od-hero3">
-        <HeroFade className="od-hero3__text">
-          <span className="od-eyebrow">{hero.eyebrow}</span>
+      <div className="od-wrap od-h4__inner">
+        <HeroFade className="od-h4__copy">
+          <a className="od-h4__badge" href={hero.video.href}>
+            <span className="od-live" />
+            {hero.live}
+            <span className="od-h4__badge-cta">{hero.video.label} →</span>
+          </a>
           <h1 className="od-display-xl">
             {hero.title[0]}
             <br />
             {hero.title[1]} <em>{hero.title[2]}</em>
           </h1>
           <p className="od-lead">{hero.lead}</p>
-          <div className="od-hero3__ctas">
+          <div className="od-h4__ctas">
             <Link className="od-btn od-btn--ink" href={hero.primary.href}>
               {hero.primary.label}
             </Link>
-            <a className="od-play" href={hero.video.href}>
-              <span className="od-play__btn">
-                <Icon name="play" />
-              </span>
-              <span>
-                {hero.video.label}
-                <small>{hero.video.note}</small>
-              </span>
+            <a className="od-btn od-btn--secondary" href={hero.video.href}>
+              <Icon name="play" />
+              {hero.video.label}
             </a>
           </div>
-          <span className="od-hero3__note">
-            <span className="od-live" />
-            {hero.live}
-          </span>
         </HeroFade>
-        <div className="od-hero3__chat">
-          <HeroChat />
-        </div>
+        <HeroStage />
       </div>
     </section>
   );
