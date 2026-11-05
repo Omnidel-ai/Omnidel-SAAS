@@ -1,0 +1,3 @@
+# Raw takes and intermediate masters are large; only the cut clips in public/ are committed.
+takes/
+__pycache__/
