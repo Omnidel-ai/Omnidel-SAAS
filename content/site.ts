@@ -460,47 +460,70 @@ export const acharyaPage = {
   },
 };
 
-/* ── Landing: hero stage, journey timeline, numbers ───────────────────── */
+/* ── Landing: hero world, journey timeline, numbers ───────────────────── */
 
 /**
- * The hero's 3D stage. Both screens are screen recordings of the OmniDEL apps
- * (OmniPulse on the web, the Acharya app on a phone; demo data), cut into short
- * loops in public/hero/. `segments` are the parts of the desktop reel, in
- * seconds: while each plays, the browser bar names it and one toast floats in
- * front with the result, so the loop reads proof → score → pay.
+ * The hero's world (components/HeroWorld.tsx): a 3D globe turned to India,
+ * threads of light from Indian cities to a phone, the phone cycling through
+ * the OmniDEL app, and notifications arriving beside it. The globe's images
+ * are in public/hero/ (scripts/hero-footage/build_hero.py); which way it faces
+ * is in content/globe.json. The phone's screens and the notifications follow
+ * the jobs in `agent` (Flat 4B and Tower C).
  */
-export const heroStage = {
-  desk: {
-    src: "/hero/pulse",
-    poster: "/hero/pulse.jpg",
-    label: "Screen recording of the OmniPulse web app",
-    segments: [
-      {
-        at: 0,
-        path: "pulse/board",
-        label: "The crew’s board, live",
-        toast: { icon: "✓", tone: "green", title: "Photo proof checked", text: "3 photos · Newtown block C" },
-      },
-      {
-        at: 5.25,
-        path: "pulse/review",
-        label: "Approve the Acharya’s score",
-        toast: { icon: "9.2", tone: "ochre", title: "Scored 9.2 / 10 by the Acharya", text: "Approved by the captain" },
-      },
-      {
-        at: 12.75,
-        path: "home",
-        label: "Your day at a glance",
-        toast: { icon: "₹", tone: "terra", title: "₹640 added to Rahul’s pay", text: "Settled 4:32 pm" },
-      },
-    ],
+export const heroWorld = {
+  label:
+    "Animation: a globe turned to India, with threads of light from Kolkata, Delhi, Mumbai and Bengaluru to a phone. The phone shows the OmniDEL app: the list of Acharyas, a task’s photo proof and score, then the worker’s pay, while notifications arrive beside it.",
+  globe: {
+    day: "/hero/earth-day.webp",
+    clouds: "/hero/earth-clouds.webp",
+    still: "/hero/globe.webp",
+    still400: "/hero/globe-400.webp",
   },
+  /** The city whose pin gets a label: where the pilot runs. */
+  live: "Kolkata",
   phone: {
-    src: "/hero/acharya",
-    poster: "/hero/acharya.jpg",
-    label: "Screen recording of the Acharya app",
+    brand: "OmniDEL.ai",
+    tagline: "Your crew does the work.",
+    list: { title: "Acharyas", sub: "A guide for every job" },
+    tabs: [
+      { icon: "pulse", label: "Today" },
+      { icon: "seed", label: "Acharyas" },
+      { icon: "plan", label: "Tasks" },
+      { icon: "pay", label: "Pay" },
+    ],
+    task: {
+      title: "Kitchen tiling",
+      meta: "Flat 4B · Raju · due 6 pm",
+      proof: "Photo proof",
+      checked: "3 photos checked",
+      scoreLabel: "Acharya’s score",
+      score: 9.2,
+      note: "Tiles level · grout lines clean",
+      approve: "Approve",
+      approved: "Approved",
+    },
+    pay: {
+      who: "Raju’s pay",
+      amount: 640,
+      note: "Added just now",
+      lines: [
+        { label: "Kitchen tiling", value: "+₹640" },
+        { label: "Bathroom grout", value: "+₹420" },
+        { label: "This week", value: "₹3,860" },
+      ],
+    },
   },
-  note: "Recorded in the OmniDEL apps · demo data",
+  notes: [
+    { icon: "ear", tone: "green", title: "Voice note understood", text: "Captain Bikram · Hinglish" },
+    { icon: "plan", tone: "ochre", title: "7 tasks planned", text: "Raju, Meena · due 6 pm" },
+    { icon: "cam", tone: "green", title: "Photo proof checked", text: "3 photos · tiles level" },
+    { icon: "score", tone: "ochre", title: "Scored 9.2 / 10", text: "By the Acharya · kitchen tiling" },
+    { icon: "pay", tone: "terra", title: "₹640 paid to Raju", text: "Kitchen tiling · 4:32 pm" },
+    { icon: "ear", tone: "green", title: "Voice note in Bengali", text: "Captain Sunita · Tower C" },
+    { icon: "cam", tone: "terra", title: "1 wall needs a 2nd coat", text: "Tower C · 8 photos checked" },
+    { icon: "pay", tone: "terra", title: "4 workers paid ₹1,920", text: "Tower C · 3:42 pm" },
+    { icon: "send", tone: "ochre", title: "Reminder sent to Arif", text: "Voice note, in Hindi" },
+  ],
 } as const;
 
 /** "From sign-up to a working crew": the onboarding steps, in order. */

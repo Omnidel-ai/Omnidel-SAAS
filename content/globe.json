@@ -1,0 +1,16 @@
+{
+  "//": "The hero globe's view, shared by components/HeroWorld.tsx (WebGL) and scripts/hero-footage/build_hero.py (the still). Angles in degrees.",
+  "lon": 68,
+  "lat": 16,
+  "roll": -12,
+  "light": [0.62, 0.44, 0.65],
+  "sway": 7,
+  "swaySeconds": 26,
+  "cloudSeconds": 540,
+  "cities": [
+    { "name": "Kolkata", "lat": 22.57, "lon": 88.36 },
+    { "name": "Delhi", "lat": 28.61, "lon": 77.21 },
+    { "name": "Mumbai", "lat": 19.08, "lon": 72.88 },
+    { "name": "Bengaluru", "lat": 12.97, "lon": 77.59 }
+  ]
+}
