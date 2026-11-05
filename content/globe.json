@@ -4,9 +4,9 @@
   "lat": 16,
   "roll": -12,
   "light": [0.62, 0.44, 0.65],
-  "sway": 7,
-  "swaySeconds": 26,
-  "cloudSeconds": 540,
+  "sway": 10,
+  "swaySeconds": 15,
+  "cloudSeconds": 180,
   "cities": [
     { "name": "Kolkata", "lat": 22.57, "lon": 88.36 },
     { "name": "Delhi", "lat": 28.61, "lon": 77.21 },

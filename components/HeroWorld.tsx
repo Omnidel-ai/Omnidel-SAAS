@@ -260,7 +260,7 @@ const LIVE = CITIES.findIndex((c) => c.name === heroWorld.live);
 
 const SCREENS = ["brand", "list", "task", "pay"] as const;
 type Screen = (typeof SCREENS)[number];
-const SCREEN_MS: Record<Screen, number> = { brand: 2800, list: 4600, task: 5200, pay: 3800 };
+const SCREEN_MS: Record<Screen, number> = { brand: 5000, list: 5000, task: 3400, pay: 3800 };
 
 const pageV: Variants = { hidden: {}, shown: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } } };
 const itemV: Variants = {
@@ -310,14 +310,14 @@ function Tabs({ on }: { on: number }) {
   );
 }
 
-function Count({ to, decimals = 0, delay = 0 }: { to: number; decimals?: number; delay?: number }) {
+function Count({ to, decimals = 0, delay = 0, duration = 1.1 }: { to: number; decimals?: number; delay?: number; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const c = animate(0, to, { duration: 1.1, delay, ease, onUpdate: (v) => (el.textContent = v.toFixed(decimals)) });
+    const c = animate(0, to, { duration, delay, ease, onUpdate: (v) => (el.textContent = v.toFixed(decimals)) });
     return () => c.stop();
-  }, [to, decimals, delay]);
+  }, [to, decimals, delay, duration]);
   return <span ref={ref}>{(0).toFixed(decimals)}</span>;
 }
 
@@ -325,7 +325,7 @@ function Approve() {
   const t = heroWorld.phone.task;
   const [ok, setOk] = useState(false);
   useEffect(() => {
-    const id = window.setTimeout(() => setOk(true), 3200);
+    const id = window.setTimeout(() => setOk(true), 2000);
     return () => window.clearTimeout(id);
   }, []);
   return (
@@ -398,7 +398,7 @@ function ScreenView({ screen, first }: { screen: Screen; first: boolean }) {
               <motion.i
                 initial={{ opacity: 0, transform: "scale(0)" }}
                 animate={{ opacity: 1, transform: "scale(1)" }}
-                transition={{ type: "spring", duration: 0.45, bounce: 0.4, delay: 0.9 + i * 0.25 }}
+                transition={{ type: "spring", duration: 0.45, bounce: 0.4, delay: 0.5 + i * 0.16 }}
               >
                 ✓
               </motion.i>
@@ -408,14 +408,14 @@ function ScreenView({ screen, first }: { screen: Screen; first: boolean }) {
         <motion.div className="od-scr__score" variants={itemV}>
           <small>{p.task.scoreLabel}</small>
           <b>
-            <Count to={p.task.score} decimals={1} delay={1.4} />
+            <Count to={p.task.score} decimals={1} delay={0.75} duration={0.9} />
             <span className="od-scr__of"> / 10</span>
           </b>
           <i>
             <motion.i
               initial={{ transform: "scaleX(0)" }}
               animate={{ transform: `scaleX(${p.task.score / 10})` }}
-              transition={{ duration: 1.1, delay: 1.4, ease }}
+              transition={{ duration: 0.9, delay: 0.75, ease }}
             />
           </i>
         </motion.div>
