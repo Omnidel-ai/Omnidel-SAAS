@@ -10,6 +10,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import "@fontsource/hind/400.css";
 import "@fontsource/hind/500.css";
 import "./globals.css";
+import { ScrollProgress } from "@/components/Motion";
 
 export const metadata: Metadata = {
   title: { default: "OmniDEL.ai — Your crew does the work. The agent does the rest.", template: "%s · OmniDEL.ai" },
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="od-skip" href="#main">
           Skip to content
         </a>
+        <ScrollProgress />
         <div className="od">{children}</div>
       </body>
     </html>

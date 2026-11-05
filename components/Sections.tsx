@@ -1,76 +1,57 @@
 import Link from "next/link";
-import { beforeAfter, brand, closing, faq, hero, trust } from "@/content/site";
+import { beforeAfter, brand, closing, faq, hero } from "@/content/site";
 import { Nav } from "./Chrome";
 import { Icon } from "./Icon";
+import { scene } from "@/lib/scenes";
+import { HeroFade, Parallax, Reveal, Stagger, StaggerItem } from "./Motion";
+import { HeroStage } from "./HeroStage";
 
 export function Hero() {
   return (
-    <section className="od-hero od-hero--calm">
-      <div className="od-scene-wrap">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="od-scene" src="/scenes/hero.svg" alt="" style={{ objectPosition: "center" }} />
+    <section className="od-hero od-h4">
+      <div className="od-h4__bg" aria-hidden="true">
+        <span className="od-h4__glow" />
+        <span className="od-h4__floor">
+          <i />
+        </span>
       </div>
       <Nav />
-      <div className="od-wrap od-hero3">
-        <div className="od-hero3__text">
-          <span className="od-eyebrow">{hero.eyebrow}</span>
+      <div className="od-wrap od-h4__inner">
+        <HeroFade className="od-h4__copy">
+          <a className="od-h4__badge" href={hero.video.href}>
+            <span className="od-live" />
+            {hero.live}
+            <span className="od-h4__badge-cta">{hero.video.label} →</span>
+          </a>
           <h1 className="od-display-xl">
             {hero.title[0]}
             <br />
             {hero.title[1]} <em>{hero.title[2]}</em>
           </h1>
           <p className="od-lead">{hero.lead}</p>
-          <div className="od-hero3__ctas">
+          <div className="od-h4__ctas">
             <Link className="od-btn od-btn--ink" href={hero.primary.href}>
               {hero.primary.label}
             </Link>
-            <a className="od-play" href={hero.video.href}>
-              <span className="od-play__btn">
-                <Icon name="play" />
-              </span>
-              <span>
-                {hero.video.label}
-                <small>{hero.video.note}</small>
-              </span>
+            <a className="od-btn od-btn--secondary" href={hero.video.href}>
+              <Icon name="play" />
+              {hero.video.label}
             </a>
           </div>
-          <span className="od-hero3__note">
-            <span className="od-live" />
-            {hero.live}
-          </span>
-        </div>
-        <span className="od-hero3__caption" lang="hi">
-          काम से
-          <br />
-          कर्म तक
-          <small style={{ display: "block", font: "12px/18px var(--font-sans)", color: "var(--ink-soft)" }}>{brand.motto.en}</small>
-        </span>
+        </HeroFade>
+        <HeroStage />
       </div>
     </section>
   );
 }
 
-export function Trust() {
-  return (
-    <div className="od-wrap od-trust">
-      <span className="od-eyebrow">{trust.title}</span>
-      <div className="od-trust__row">
-        {trust.items.map((t) => (
-          <span key={t.name}>
-            {t.name}
-            <small>{t.note}</small>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
+export { Trust } from "./Trust";
 
 export function BeforeAfter() {
   const b = beforeAfter;
   return (
-    <div className="od-ba">
-      <div className="od-ba__card od-ba__card--before">
+    <Stagger className="od-ba">
+      <StaggerItem className="od-ba__card od-ba__card--before">
         <div>
           <span className="od-ba__tag">{b.before.tag}</span>
           <h3 className="od-ba__title">{b.before.title}</h3>
@@ -83,11 +64,11 @@ export function BeforeAfter() {
             </li>
           ))}
         </ul>
-      </div>
-      <span className="od-ba__arrow" aria-hidden="true">
+      </StaggerItem>
+      <StaggerItem className="od-ba__arrow">
         <Icon name="arrow" />
-      </span>
-      <div className="od-ba__card od-ba__card--after">
+      </StaggerItem>
+      <StaggerItem className="od-ba__card od-ba__card--after">
         <div>
           <span className="od-ba__tag">{b.after.tag}</span>
           <h3 className="od-ba__title">{b.after.title}</h3>
@@ -100,33 +81,36 @@ export function BeforeAfter() {
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+      </StaggerItem>
+    </Stagger>
   );
 }
 
 export function Faq() {
   return (
-    <div className="od-faq">
+    <Reveal className="od-faq">
       {faq.map((f, i) => (
         <details key={f.q} open={i === 0}>
           <summary>{f.q}</summary>
           <p>{f.a}</p>
         </details>
       ))}
-    </div>
+    </Reveal>
   );
 }
 
 export function Closing() {
+  const bg = scene("closing");
   return (
     <section className="od-closing">
-      <div className="od-scene-wrap">
+      <div className={`od-scene-wrap${bg.photo ? " od-scene-wrap--photo od-scene-wrap--photo-r" : ""}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="od-scene" src="/scenes/closing.svg" alt="" style={{ objectPosition: "left bottom" }} />
+        <Parallax style={{ position: "absolute", inset: 0 }} speed={0.25}>
+          <img className="od-scene" src={bg.src} alt="" style={{ objectPosition: bg.photo ? "center" : "left bottom" }} />
+        </Parallax>
       </div>
       <div className="od-wrap">
-        <div className="od-closing__text">
+        <Reveal className="od-closing__text">
           <span className="od-indic" lang="hi">
             {brand.motto.hi}
           </span>
@@ -144,7 +128,7 @@ export function Closing() {
               See plans &amp; pricing
             </Link>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

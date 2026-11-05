@@ -29,6 +29,7 @@ Node 20 or newer. The site is fully static (every route prerenders), so it deplo
 - `app/globals.css`: design tokens (colours, type, spacing, radii, shadows) and every `od-` class. It comes from the OmniDEL design system, which uses the Omnidel_Frontend palette with Fraunces, Inter Tight and JetBrains Mono.
 - `public/scenes/`: the two painted backgrounds (SVG, with slow mist, branch and bird motion that stops under reduced motion).
 - `public/screens/`: real OmniDEL app screens captured from `Omnidel-ai/Omnidel_Frontend` with its demo data.
+- `public/hero/`: the hero stage's two loops (`pulse` = OmniPulse web app, `acharya` = Acharya app on a phone), each as MP4 + WebM + poster. They are screen recordings of the `Omnidel_Frontend` demo apps (`npm run dev` on :5300, `npm run dev:acharya` on :5301), so no real data is shown. The desktop loop's parts and their timings are in `heroStage` in `content/site.ts`; re-cut the clips and those times change together.
 - `lib/order.ts`: the basket (plan, billing, add-ons) carried in the URL. `lib/auth.ts`: the login session.
 
 ## Before launch (TODO)

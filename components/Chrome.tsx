@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { brand, footer, nav } from "@/content/site";
+import { Reveal } from "./Motion";
+import { NavMenu } from "./NavMenu";
+import { StickyHeader } from "./StickyHeader";
 
 export function Brand() {
   return (
@@ -10,9 +13,11 @@ export function Brand() {
   );
 }
 
+const DEMO = "mailto:ram.badrinathan@jvl.run?subject=OmniPulse%20demo";
+
 export function Nav({ current }: { current?: string }) {
   return (
-    <header className="od-nav">
+    <StickyHeader>
       <div className="od-wrap od-nav__bar">
         <Brand />
         <nav className="od-nav__links" aria-label="Main">
@@ -26,12 +31,13 @@ export function Nav({ current }: { current?: string }) {
           <Link className="od-btn od-btn--ink od-btn--sm" href="/login">
             Log in
           </Link>
-          <a className="od-btn od-btn--secondary od-btn--sm" href="mailto:ram.badrinathan@jvl.run?subject=OmniPulse%20demo">
+          <a className="od-btn od-btn--secondary od-btn--sm" href={DEMO}>
             Book a demo
           </a>
+          <NavMenu links={nav} demo={DEMO} />
         </div>
       </div>
-    </header>
+    </StickyHeader>
   );
 }
 
@@ -74,21 +80,12 @@ export function Footer() {
 
 export function SectionHead({ eyebrow, title, lead }: { eyebrow: string; title: React.ReactNode; lead?: string }) {
   return (
-    <div className="od-head">
+    <Reveal className="od-head">
       <span className="od-eyebrow">{eyebrow}</span>
       <h2 className="od-display">{title}</h2>
       {lead ? <p className="od-lead">{lead}</p> : null}
-    </div>
+    </Reveal>
   );
 }
 
-export function AskPill() {
-  return (
-    <a className="od-ask" href="/#acharyas" style={{ position: "fixed" }}>
-      <span className="od-brand__badge">M</span>
-      <span>
-        Ask MahAcharya Ji<small>“How will an Acharya help my crew?”</small>
-      </span>
-    </a>
-  );
-}
+export { AskPill } from "./AskPill";
