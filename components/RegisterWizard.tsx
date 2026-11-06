@@ -21,8 +21,9 @@ interface Details { ownerName: string; email: string; businessName: string; trad
 const LABELS = ["Verify", "Your business", "Address", "Plan", "Pay"] as const;
 const STAGE_STEP: Record<Stage, number> = { phone: 0, otp: 0, details: 1, address: 2, plan: 3, pay: 4, done: 5 };
 const DOMAIN = "omnidel.online";
-/** The add-on ids the pricing page puts in the link, and the module slug the API knows each by. */
-const PRICING_ADDON_TO_MODULE: Record<string, string> = { mart: "omnimart", studio: "omnistudio", ads: "omniads" };
+/** The add-on ids the pricing page puts in the link, and the module slug the API knows each by.
+ *  OmniAds has no module yet (marketing only), so it has no entry. A slug is kept only if the catalog lists it. */
+const PRICING_ADDON_TO_MODULE: Record<string, string> = { mart: "omnimart", studio: "omnistudio" };
 /** Rupees, with paise only when there are any: ₹1,198 or ₹1,198.40. */
 const rupees = (n: number) => "₹" + n.toLocaleString("en-IN", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
 /** What one month of a list price costs on the chosen billing: yearly takes the discount off. */
