@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { inr, planCopy } from "@/content/site";
+import { planCopy } from "@/content/site";
 import { STATES, TEAM_SIZES, TRADES, prefixProblem, suggestPrefix } from "@/lib/register";
 import { Brand } from "./Chrome";
 import { Steps } from "./Steps";
@@ -21,6 +21,10 @@ interface Details { ownerName: string; email: string; businessName: string; trad
 const LABELS = ["Verify", "Your business", "Address", "Plan", "Pay"] as const;
 const STAGE_STEP: Record<Stage, number> = { phone: 0, otp: 0, details: 1, address: 2, plan: 3, pay: 4, done: 5 };
 const DOMAIN = "omnidel.online";
+/** Rupees, with paise only when there are any: ₹1,198 or ₹1,198.40. */
+const rupees = (n: number) => "₹" + n.toLocaleString("en-IN", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
+/** What one month of a list price costs on the chosen billing: yearly takes the discount off. */
+const perMonth = (monthly: number, billing: Billing, discount: number) => (billing === "yearly" ? Math.round(monthly * (100 - discount)) / 100 : monthly);
 
 /** One call to this site's own register routes. Resolves to the item, or throws a readable message. */
 class CallError extends Error {
@@ -79,13 +83,14 @@ export function RegisterWizard() {
   useEffect(loadCatalog, [loadCatalog]);
 
   const plan = catalog?.plans.find((p) => p.slug === planSlug);
+  /** Add-ons the plan already includes cost nothing and are never bought again. */
+  const paidAddons = useMemo(() => (plan ? addons.filter((m) => !plan.modules.includes(m)) : addons), [plan, addons]);
   const total = useMemo(() => {
     if (!catalog || !plan) return null;
-    const extras = catalog.addons.filter((a) => addons.includes(a.module)).reduce((s, a) => s + a.priceInrMonthly, 0);
-    const perMonth = billing === "yearly" ? plan.priceInrYearlyPerMonth + extras * (1 - catalog.yearlyDiscountPercent / 100) : plan.priceInrMonthly + extras;
-    const perMonthR = Math.round(perMonth);
-    return { perMonth: perMonthR, charge: billing === "yearly" ? Math.round(perMonth * 12) : perMonthR };
-  }, [catalog, plan, addons, billing]);
+    const monthly = plan.priceInrMonthly + catalog.addons.filter((a) => paidAddons.includes(a.module)).reduce((s, a) => s + a.priceInrMonthly, 0);
+    const charge = billing === "yearly" ? Math.round(monthly * 12 * (100 - catalog.yearlyDiscountPercent)) / 100 : monthly;
+    return { monthly, charge, perMonth: billing === "yearly" ? charge / 12 : monthly };
+  }, [catalog, plan, paidAddons, billing]);
 
   async function run(work: () => Promise<void>) {
     setBusy(true);
@@ -116,7 +121,7 @@ export function RegisterWizard() {
     const d = details;
     if (!d.ownerName.trim() || !d.businessName.trim() || !d.city.trim() || !d.trade || !d.state || !d.teamSize) return setError("Fill in every field marked required.");
     if (!/^\S+@\S+\.\S+$/.test(d.email.trim())) return setError("Enter a valid email address.");
-    if (d.gstin && !/^[0-9A-Za-z]{15}$/.test(d.gstin.trim())) return setError("A GSTIN has 15 characters. Leave it empty if you do not have one.");
+    if (d.gstin && !/^[0-9]{2}[A-Z0-9]{13}$/.test(d.gstin.trim().toUpperCase())) return setError("A GSTIN has 15 characters, starting with 2 digits. Leave it empty if you do not have one.");
     setError(null);
     if (!prefixEdited) setPrefix(suggestPrefix(d.businessName));
     setStage("address");
@@ -127,7 +132,7 @@ export function RegisterWizard() {
     try {
       const r = await call<Result>("submit", {
         method: "POST",
-        body: { phone, ...details, ownerName: details.ownerName.trim(), email: details.email.trim(), businessName: details.businessName.trim(), city: details.city.trim(), gstin: details.gstin.trim() || null, prefix, planSlug: plan.slug, billing, addons },
+        body: { phone, ...details, teamSize: details.teamSize.replace("–", "-"), ownerName: details.ownerName.trim(), email: details.email.trim(), businessName: details.businessName.trim(), city: details.city.trim(), gstin: details.gstin.trim().toUpperCase() || null, prefix, planSlug: plan.slug, billing, addons: paidAddons },
       });
       setResult(r);
       setStage("done");
@@ -242,7 +247,7 @@ export function RegisterWizard() {
                     <label key={p.slug} className={`od-reg__plan${on ? " is-on" : ""}`}>
                       <input type="radio" name="plan" value={p.slug} checked={on} onChange={() => setPlanSlug(p.slug)} />
                       <span className="od-reg__plan-name">{p.name}</span>
-                      <span className="od-reg__plan-price">{inr(billing === "yearly" ? p.priceInrYearlyPerMonth : p.priceInrMonthly)}<small> / month</small></span>
+                      <span className="od-reg__plan-price">{rupees(perMonth(p.priceInrMonthly, billing, catalog.yearlyDiscountPercent))}<small> / month</small></span>
                       <span className="od-small">Up to {p.seatLimit} people{copy ? ` · ${copy.for}` : ""}</span>
                       {copy ? <ul className="od-mini">{copy.features.slice(0, 3).map((f) => <li key={f}>{f}</li>)}</ul> : null}
                     </label>
@@ -252,18 +257,21 @@ export function RegisterWizard() {
               {catalog.addons.length > 0 ? (
                 <fieldset className="od-reg__addons">
                   <legend className="od-small">Add-ons</legend>
-                  {catalog.addons.map((a) => (
-                    <label key={a.module} className="od-reg__addon">
-                      <input type="checkbox" checked={addons.includes(a.module)} onChange={(e) => setAddons((l) => (e.target.checked ? [...l, a.module] : l.filter((m) => m !== a.module)))} />
-                      <span>{a.name}</span>
-                      <b>+{inr(billing === "yearly" ? Math.round(a.priceInrMonthly * (1 - catalog.yearlyDiscountPercent / 100)) : a.priceInrMonthly)}<small> / month</small></b>
-                    </label>
-                  ))}
+                  {catalog.addons.map((a) => {
+                    const included = plan?.modules.includes(a.module) ?? false;
+                    return (
+                      <label key={a.module} className="od-reg__addon">
+                        <input type="checkbox" disabled={included} checked={included || addons.includes(a.module)} onChange={(e) => setAddons((l) => (e.target.checked ? [...l, a.module] : l.filter((m) => m !== a.module)))} />
+                        <span>{a.name}</span>
+                        {included ? <b>Included</b> : <b>+{rupees(perMonth(a.priceInrMonthly, billing, catalog.yearlyDiscountPercent))}<small> / month</small></b>}
+                      </label>
+                    );
+                  })}
                 </fieldset>
               ) : null}
               <div className="od-reg__total" aria-live="polite">
                 <span className="od-small">{billing === "yearly" ? "Billed yearly" : "Billed monthly"} · GST extra</span>
-                <span className="od-addon__price">{total ? inr(total.perMonth) : "—"}<small> / month</small></span>
+                <span className="od-addon__price">{total ? (billing === "yearly" ? <>{rupees(total.charge)}<small> a year ({rupees(total.perMonth)}/month)</small></> : <>{rupees(total.monthly)}<small> / month</small></>) : "—"}</span>
               </div>
             </>
           )}
@@ -280,8 +288,9 @@ export function RegisterWizard() {
           {head("Review and pay")}
           <p className="od-reg__demo" role="note"><b>Demo payment</b> — no money is charged.</p>
           <div className="od-reg__lines">
-            <div><span>{plan.name}</span><b>{inr(billing === "yearly" ? plan.priceInrYearlyPerMonth : plan.priceInrMonthly)}<small> / mo</small></b></div>
-            {catalog?.addons.filter((a) => addons.includes(a.module)).map((a) => <div key={a.module}><span>{a.name}</span><b>+{inr(billing === "yearly" ? Math.round(a.priceInrMonthly * (1 - catalog.yearlyDiscountPercent / 100)) : a.priceInrMonthly)}<small> / mo</small></b></div>)}
+            <div><span>{plan.name}</span><b>{rupees(perMonth(plan.priceInrMonthly, billing, catalog?.yearlyDiscountPercent ?? 0))}<small> / mo</small></b></div>
+            {catalog?.addons.filter((a) => paidAddons.includes(a.module)).map((a) => <div key={a.module}><span>{a.name}</span><b>+{rupees(perMonth(a.priceInrMonthly, billing, catalog.yearlyDiscountPercent))}<small> / mo</small></b></div>)}
+            {catalog?.addons.filter((a) => addons.includes(a.module) && plan.modules.includes(a.module)).map((a) => <div key={a.module}><span>{a.name}</span><b>Included</b></div>)}
             <div className="od-plan__rule" />
             <div><span>Address</span><b className="od-reg__mono">{prefix}.{DOMAIN}</b></div>
             <div><span>Billing</span><b>{billing === "yearly" ? "Yearly" : "Monthly"}</b></div>
@@ -294,7 +303,7 @@ export function RegisterWizard() {
           ) : (
             <>
               {err}
-              <button className="od-btn od-btn--primary od-btn--block" type="button" disabled={busy} onClick={() => void pay()}>Pay {inr(total.charge)} (demo)</button>
+              <button className="od-btn od-btn--primary od-btn--block" type="button" disabled={busy} onClick={() => void pay()}>Pay {rupees(total.charge)} (demo)</button>
               <div className="od-reg__row">{back("plan")}</div>
             </>
           )}
@@ -310,7 +319,7 @@ export function RegisterWizard() {
           <dl className="od-reg__ref">
             <div><dt>Payment reference</dt><dd className="od-reg__mono">{result.paymentReference}</dd></div>
             <div><dt>Order</dt><dd className="od-reg__mono">{result.orderId}</dd></div>
-            <div><dt>Amount (demo)</dt><dd>{inr(result.amountInr)}</dd></div>
+            <div><dt>Amount (demo)</dt><dd>{rupees(result.amountInr)}</dd></div>
           </dl>
         </div>
       )}
