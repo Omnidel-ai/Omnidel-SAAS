@@ -9,8 +9,8 @@ It is for customers. The investor story stays on omnidel.ai.
 |---|---|
 | `/` | Home: calm hero over a painted scene, the OmniPulse agent at work, real app screens, the Acharyas with a MahAcharya Ji guide chat, before and after, pricing and add-ons, closing scene |
 | `/pricing` | Monthly / yearly switch, two plan cards, enterprise strip, add-ons with a live total, checkout steps, before and after, FAQ |
-| `/login` | Mobile + OTP login. Buying needs a verified OmniDEL ID. |
-| `/checkout` | Order summary. Redirects to `/login` when there is no session. |
+| `/register` | Contractor sign-up wizard: mobile + OTP, business details, instance address, plan, demo payment, success with the instance URL. |
+| `/login`, `/checkout` | Redirect to `/register`. |
 
 ## Run it
 
@@ -32,13 +32,12 @@ Node 20 or newer. The site is fully static (every route prerenders), so it deplo
 - `public/hero/`: the images behind the hero's 3D globe (a world map from NASA's Blue Marble, generated clouds, and a still of the globe for the first paint and for reduced motion) and small Acharya portraits for the phone. The globe's view is `content/globe.json`; the phone's screens and the notifications are `heroWorld` in `content/site.ts`.
 - `public/tour/`: the four clips of the "See it in the app" product tour. They are screen recordings of the `Omnidel_Frontend` demo apps (`npm run dev` on :5300, `npm run dev:acharya` on :5301), so no real data is shown.
 - `scripts/hero-footage/`: the scripts that make the globe's images and record and cut the tour clips; see its README.
-- `lib/order.ts`: the basket (plan, billing, add-ons) carried in the URL. `lib/auth.ts`: the login session.
+- `lib/order.ts`: the basket (plan, billing, add-ons) carried in the URL. `lib/api.ts`: the server-only door to the OmniDEL API, used by the route handlers in `app/api/register/*` (set `OMNIDEL_API_URL` and `OMNIDEL_WEBSITE_APP_SECRET`, see `.env.example`).
 
 ## Before launch (TODO)
 
 1. **Prices** in `content/site.ts` are placeholders (₹499 / ₹899, add-ons ₹199–299, 20% off yearly).
-2. **Auth**: `lib/auth.ts` is a demo that accepts any 6-digit code and keeps the session in the browser. Wire `requestOtp`, `verifyOtp` and `getSession` to the OmniDEL auth API.
-3. **Payments**: the "Pay & invite your crew" button in `components/CheckoutView.tsx` needs the payment gateway.
+2. **Payment**: `/register` uses the API's demo payment (no money moves). Replace it with the real gateway before launch.
 4. **MahAcharya Ji**: answers are scripted in `content/site.ts`. Replace `reply()` in `components/Acharyas.tsx` with a call to the app's MahAcharya assistant. Use the initial "M" avatar until an approved portrait exists.
 5. **Acharya photos**: the roster uses initials. Swap in approved portraits when available.
 6. **"See a day on site" video** and the **Book a demo** address (currently a mailto) need real targets.

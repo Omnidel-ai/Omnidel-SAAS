@@ -30,7 +30,7 @@ export const hero = {
   eyebrow: "OmniPulse · AI agent for work crews",
   title: ["Your crew does the work.", "The agent does", "the rest."],
   lead: "Say the task in any language. OmniPulse plans it, checks the photo proof, scores the work and settles pay.",
-  primary: { label: "Try the agent →", href: "/pricing" },
+  primary: { label: "Try the agent →", href: "/register" },
   video: { label: "See it work", note: "Live demo below", href: "#agent" },
   live: "Live in Kolkata · 30 workers",
 };
@@ -258,15 +258,22 @@ export const pricingCopy = {
   },
   addOnsTitle: "Add what your business needs",
   addOnsLead: "Each add-on works with either plan.",
-  loginNote: "Log in with your OmniDEL ID to buy",
+  loginNote: "Verify your mobile number to get started",
 };
 
-export const checkoutSteps = ["Choose plan & add-ons", "Log in with your OmniDEL ID", "Pay & invite your crew"];
+export const checkoutSteps = ["Choose plan & add-ons", "Verify your number & register", "Pay & get your instance"];
+
+/** Marketing copy per plan, keyed by the catalog slug. Names and prices come from the API. */
+export const planCopy: Record<string, { for: string; lead?: string; features: string[] }> = {
+  starter: { for: "To try OmniPulse with a small crew.", features: ["Teams, projects and a live board", "Voice + photo task updates, in any language", "Daily scoreboard for every worker"] },
+  pulse: { for: plans[0]!.for, features: plans[0]!.features },
+  velocity: { for: plans[1]!.for, ...(plans[1]!.lead ? { lead: plans[1]!.lead } : {}), features: plans[1]!.features },
+};
 
 export const faq = [
   {
     q: "Why do I need to log in before buying?",
-    a: "Every plan is attached to a verified OmniDEL ID, so your crew, scores and payouts stay with your account. You can explore plans freely — login is asked for only at checkout.",
+    a: "Every plan is attached to a verified OmniDEL ID, so your crew, scores and payouts stay with your account. You can explore plans freely — your mobile number is checked only when you register.",
   },
   { q: "Can I start with OmniPulse and add Velocity later?", a: "Yes. Upgrade any time; you pay the difference for the rest of the billing period." },
   { q: "Do my workers need to read or type?", a: "No. Updates are voice and photo first, in the worker’s own language." },

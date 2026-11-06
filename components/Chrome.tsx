@@ -28,8 +28,8 @@ export function Nav({ current }: { current?: string }) {
           ))}
         </nav>
         <div className="od-nav__actions">
-          <Link className="od-btn od-btn--ink od-btn--sm" href="/login">
-            Log in
+          <Link className="od-btn od-btn--ink od-btn--sm" href="/register">
+            Get started
           </Link>
           <a className="od-btn od-btn--secondary od-btn--sm" href={DEMO}>
             Book a demo

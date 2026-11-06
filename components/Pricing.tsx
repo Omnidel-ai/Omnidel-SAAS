@@ -13,7 +13,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
   const plan: PlanId = "velocity";
   const [chosen, setChosen] = useState<AddOnId[]>(["mart"]);
   const order = { plan, billing, addOns: chosen };
-  const checkout = (p: PlanId) => `/checkout?${orderToQuery({ ...order, plan: p })}`;
+  const checkout = (p: PlanId) => `/register?${orderToQuery({ ...order, plan: p })}`;
   const toggle = (id: AddOnId) => setChosen((c) => (c.includes(id) ? c.filter((x) => x !== id) : [...c, id]));
   const planName = plans.find((p) => p.id === plan)?.name;
   const item = useItemVariants(32);
@@ -77,7 +77,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
               </div>
               <p className="od-plan2__note">{billing === "yearly" ? "Billed yearly" : "Billed monthly"} · GST extra</p>
               <Link className={`od-btn ${p.featured ? "od-btn--primary" : "od-btn--ink"} od-btn--block`} href={checkout(p.id)}>
-                Log in to buy
+                Try {p.name}
               </Link>
               <ul className="od-arrows">
                 {p.lead ? <li className="lead">{p.lead}</li> : null}
@@ -158,7 +158,7 @@ export function Pricing({ showAddOns = true }: { showAddOns?: boolean }) {
               </div>
             </div>
             <Link className="od-btn od-btn--on-dark" href={checkout(plan)}>
-              <Icon name="lock" className="od-lock" /> Log in to continue
+              Continue to sign up
             </Link>
           </div>
         </>
