@@ -21,6 +21,8 @@ interface Details { ownerName: string; email: string; businessName: string; trad
 const LABELS = ["Verify", "Your business", "Address", "Plan", "Pay"] as const;
 const STAGE_STEP: Record<Stage, number> = { phone: 0, otp: 0, details: 1, address: 2, plan: 3, pay: 4, done: 5 };
 const DOMAIN = "omnidel.online";
+/** The add-on ids the pricing page puts in the link, and the module slug the API knows each by. */
+const PRICING_ADDON_TO_MODULE: Record<string, string> = { mart: "omnimart", studio: "omnistudio", ads: "omniads" };
 /** Rupees, with paise only when there are any: ₹1,198 or ₹1,198.40. */
 const rupees = (n: number) => "₹" + n.toLocaleString("en-IN", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
 /** What one month of a list price costs on the chosen billing: yearly takes the discount off. */
@@ -75,7 +77,8 @@ export function RegisterWizard() {
       (c) => {
         setCatalog(c);
         setPlanSlug((slug) => (c.plans.some((p) => p.slug === slug) ? slug : (c.plans.find((p) => p.slug === "velocity") ?? c.plans[0])?.slug ?? ""));
-        setAddons((list) => list.filter((m) => c.addons.some((a) => a.module === m)));
+        // The pricing page's add-on ids become the API's module slugs; anything unknown is dropped, never passed through.
+        setAddons((list) => [...new Set(list.map((m) => PRICING_ADDON_TO_MODULE[m] ?? m).filter((m) => c.addons.some((a) => a.module === m)))]);
       },
       (e: Error) => setCatalogError(e.message),
     );
